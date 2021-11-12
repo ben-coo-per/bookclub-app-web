@@ -1,0 +1,7 @@
+fragment ReadingStandard on Reading {
+  id
+  createdAt
+  updatedAt
+  title
+  author
+}

@@ -1,0 +1,11 @@
+query AllReadings {
+  readings {
+    ...ReadingStandard
+  }
+}
+
+query Reading($id: Int!) {
+  reading(id: $id) {
+    ...ReadingStandard
+  }
+}
