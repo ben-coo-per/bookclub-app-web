@@ -1,9 +1,9 @@
 import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid";
 import { useEffect, useState } from "react";
-import { TextDataDisplay } from "../textDataDisplay";
-import { capitalizeFirstLetter } from "../../utils/textUtils";
+import { TextDataDisplay } from "src/components/textDataDisplay";
+import { capitalizeFirstLetter } from "src/utils/textUtils";
 import { StarIcon } from "src/icons/StarIcon";
-import { StarRatingInput } from "../Inputs/Rating";
+import { StarRatingInput } from "src/components/Inputs";
 import { useGetUserRatingQuery } from "src/generated/graphql";
 import { useDispatch } from "react-redux";
 import {
@@ -27,7 +27,7 @@ type ExistingVote = {
   rating: number;
 };
 
-export const ReadingHistoryRow = ({
+export const PreviousReadingRow = ({
   id,
   title,
   author,
@@ -117,7 +117,7 @@ export const ReadingHistoryRow = ({
           />
         </TextDataDisplay>
 
-        <div className="flex flex-col gap-0 md:hidden col-span-5">
+        <div className="flex flex-col gap-0 md:hidden col-span-6">
           <p className="font-bold text-darkBlue text-2xl ">{title}</p>
           <p className="font-regular text-subtleText text-xl -mt-1.5">
             {author}
@@ -143,21 +143,36 @@ export const ReadingHistoryRow = ({
       </div>
       {isExpanded && (
         <div className="md:hidden rounded-b-xl col-span-4 p-1.5 bg-accent">
-          <div className="rounded-xl col-span-4 gap-1 gap-y-0 grid grid-cols-3 py-2 px-3 bg-background">
-            <TextDataDisplay
-              label="Dates Read"
-              className="col-span-2 sm:col-span-1"
-            >
+          <div className="rounded-xl col-span-4 gap-1 gap-y-0 grid grid-cols-4 py-2 px-3 bg-background">
+            <TextDataDisplay label="Dates Read" className="col-span-2">
               Nov. 01 - Dec. 12, 2020
             </TextDataDisplay>
-            <TextDataDisplay label="type" className="col-span-1">
-              Novel
+            <TextDataDisplay label="Type" className="col-span-1">
+              {type ? capitalizeFirstLetter(type) : " - "}
             </TextDataDisplay>
             <TextDataDisplay
-              label="Rating"
+              label="Avg. Rating"
               className="col-span-2 sm:col-span-1"
+              truncate={false}
             >
-              * * * *
+              <div className="flex flex-row gap-1 items-center">
+                <StarIcon size="24" />
+                {avgRating ? avgRating : " - "}
+              </div>
+            </TextDataDisplay>
+            <TextDataDisplay
+              label="Your Rating"
+              className="col-span-2"
+              truncate={false}
+            >
+              <StarRatingInput
+                readingId={id}
+                userVote={userVote}
+                setUserVote={setUserVote}
+                fetching={fetching}
+                size={24}
+                isMobile={true}
+              />
             </TextDataDisplay>
           </div>
         </div>

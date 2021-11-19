@@ -8,7 +8,7 @@ import {
 } from "src/features/readings/currentReadingSlice";
 import { Reading, useDeleteReadingMutation } from "src/generated/graphql";
 import { DialogProps } from ".";
-import { getMultiSelectState } from "../Reading History/CurrentlyReading/CurrentReadingToolbar";
+import { getMultiSelectState } from "../Reading/CurrentReading/Toolbar";
 
 export const DeleteReadingDialog = ({ isOpen, closeModal }: DialogProps) => {
   const selectedReadings = useSelector(selectedCurrentReadings);

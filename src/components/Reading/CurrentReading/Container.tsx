@@ -1,15 +1,23 @@
-import { CurrentReadingRow } from "./CurrentReadingRow";
+import { CurrentReadingRow } from "./Row";
 import { Skeleton } from "src/components/Skeleton";
-import { CurrentlyReadingQuery } from "src/generated/graphql";
-import { CurrentReadingToolbar } from "./CurrentReadingToolbar";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { hydrateReadings } from "src/features/readings/currentReadingSlice";
+import { useCurrentlyReadingQuery } from "src/generated/graphql";
+import { CurrentReadingToolbar } from "./Toolbar";
 import { useSelector } from "react-redux";
 import { allCurrentReadings } from "src/features/readings/currentReadingSlice";
 
-interface CurrentReadingListProps {
-  data?: CurrentlyReadingQuery;
-}
+export const CurrentReadingContainer = () => {
+  const [{ data }] = useCurrentlyReadingQuery();
+  const dispatch = useDispatch();
 
-export const CurrentReadingList = ({ data }: CurrentReadingListProps) => {
+  useEffect(() => {
+    if (data?.currentlyReading) {
+      dispatch(hydrateReadings(data.currentlyReading));
+    }
+  }, [data]);
+
   const currentReadings = useSelector(allCurrentReadings);
 
   return (

@@ -5,21 +5,27 @@ import {
 } from "src/generated/graphql";
 import { StarIcon } from "src/icons/StarIcon";
 
-export const StarRatingInput = ({
-  readingId,
-  userVote,
-  setUserVote,
-  fetching = false,
-}: {
+interface StarRatingInputProps {
   readingId: number;
   fetching?: boolean;
   userVote?: { rating: number; id: number };
+  size?: number;
+  isMobile?: boolean;
   setUserVote: (
     rating: number,
     ratingId: number,
     avgRating?: number | null
   ) => void;
-}) => {
+}
+
+export const StarRatingInput = ({
+  readingId,
+  userVote,
+  setUserVote,
+  fetching = false,
+  size = 18,
+  isMobile = false,
+}: StarRatingInputProps) => {
   const [hoverState, setHoverState] = useState<number>(0);
   const stars = [1, 2, 3, 4, 5];
   const [, addRating] = useAddRatingMutation();
@@ -72,6 +78,8 @@ export const StarRatingInput = ({
           setHoverState={setHoverState}
           handleRating={handleRating}
           loading={isLoading || fetching}
+          size={size}
+          isMobile={isMobile}
         />
       ))}
     </div>
@@ -85,6 +93,8 @@ interface StarRatingProps {
   setHoverState: React.Dispatch<React.SetStateAction<number>>;
   handleRating: (rating: number) => void;
   loading?: boolean;
+  isMobile: boolean;
+  size: number;
 }
 
 const StarRating = ({
@@ -94,8 +104,23 @@ const StarRating = ({
   userVote,
   handleRating,
   loading = false,
+  isMobile,
+  size,
 }: StarRatingProps) => {
-  const size = "18";
+  if (isMobile) {
+    return (
+      <button
+        onClick={() => handleRating(place)}
+        className={`${loading ? "opacity-80 animate-pulse" : ""}`}
+      >
+        <StarIcon
+          size={size.toString()}
+          className={loading ? "cursor-not-allowed" : "cursor-pointer"}
+          variant={userVote && userVote >= place ? "full" : "empty"}
+        />
+      </button>
+    );
+  }
 
   if (hoverState > 0 && !loading) {
     return (
@@ -103,14 +128,12 @@ const StarRating = ({
         onMouseEnter={() => setHoverState(place)}
         onMouseLeave={() => setHoverState(0)}
         onClick={
-          !loading
-            ? () => handleRating(hoverState)
-            : () => console.log("loading")
+          !loading ? () => handleRating(place) : () => console.log("loading")
         }
         className={`${loading ? "opacity-80 animate-pulse" : ""}`}
       >
         <StarIcon
-          size={size}
+          size={size.toString()}
           className={loading ? "cursor-not-allowed" : "cursor-pointer"}
           variant={hoverState >= place ? "full" : "empty"}
         />
@@ -125,7 +148,7 @@ const StarRating = ({
       className={`${loading ? "opacity-80 animate-pulse" : ""}`}
     >
       <StarIcon
-        size={size}
+        size={size.toString()}
         className={loading ? "cursor-not-allowed" : "cursor-pointer"}
         variant={userVote && userVote >= place ? "full" : "empty"}
       />

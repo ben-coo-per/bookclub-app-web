@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { ReadingHistoryRow } from "./ReadingHistoryRow";
-import { Select } from "src/components/Inputs/Select";
-import { Skeleton } from "../Skeleton";
+import { PreviousReadingRow } from "./Row";
+// import { Select } from "src/components/Inputs";
+import { Skeleton } from "../../Skeleton";
 import { useDispatch, useSelector } from "react-redux";
 import { allPreviousReadings } from "src/features/readings/previousReadingSlice";
 import { hydrateReadings } from "src/features/readings/previousReadingSlice";
@@ -11,7 +11,7 @@ const sortByOptionsArray = ["Most Recent", "Oldest", "Rating"];
 // const forTypeConversion = sortByOptionsArray
 type sortByOptions = typeof sortByOptionsArray[number];
 
-export const ReadingHistoryContainer = () => {
+export const PreviousReadingContainer = () => {
   const [{ data }] = usePreviousReadingsQuery({
     variables: {
       limit: 10,
@@ -36,14 +36,14 @@ export const ReadingHistoryContainer = () => {
       <div className="flex flex-col">
         <div className="flex flex-row justify-between items-center px-1">
           <h2 className="text-darkBlue text-3xl font-bold">History</h2>
-          <Select
+          {/* <Select
             options={sortByOptionsArray}
             selected={sortBy}
             setSelected={setSortBy}
             label="Sort By: "
             labelInside
             variant="light"
-          />
+          /> */}
         </div>
 
         <div className="flex flex-col gap-2 mt-4">
@@ -61,7 +61,7 @@ export const ReadingHistoryContainer = () => {
                 id: reading.id,
                 userVote: reading.userVote,
               };
-              return <ReadingHistoryRow key={reading.id} {...props} />;
+              return <PreviousReadingRow key={reading.id} {...props} />;
             })}
           </Skeleton>
         </div>
