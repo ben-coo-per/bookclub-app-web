@@ -1,0 +1,23 @@
+fragment StandardUser on User {
+  id
+  name
+  # avatar {
+  #   isSet
+  #   options {
+  #     top
+  #     hatColor
+  #     hairColor
+  #     accessories
+  #     accessoriesColor
+  #     facialHair
+  #     facialHairColor
+  #     clothes
+  #     clothesColor
+  #     clotheGraphics
+  #     eyes
+  #     eyebrow
+  #     mouth
+  #     skin
+  #   }
+  # }
+}

@@ -1,20 +1,9 @@
 import { Skeleton, SkeletonText } from "../Skeleton";
-import { Avatar } from "./Avatar";
+import Avatar from "boring-avatars";
 import { useLogoutMutation, useMeQuery } from "../../generated/graphql";
 import { Button } from "../Inputs";
 import { TextDataDisplay } from "../textDataDisplay";
 import { useNavigate } from "react-router";
-import {
-  Accessories,
-  AccessoriesColor,
-  ClotheGraphics,
-  Eyebrow,
-  Eyes,
-  FacialHair,
-  FacialHairColor,
-  HatColor,
-  Mouth,
-} from "@dicebear/avatars-avataaars-sprites/dist/options";
 
 export const ProfileUserBox = () => {
   const [{ data, fetching }] = useMeQuery();
@@ -33,6 +22,8 @@ export const ProfileUserBox = () => {
     }
   }
 
+  let avatarBody;
+
   return (
     <div className="col-span-4 md:col-span-2 md:col-start-2 bg-white mx-auto p-5 rounded-xl shadow-lg gap-3 w-full">
       <div className="flex flex-col">
@@ -40,73 +31,12 @@ export const ProfileUserBox = () => {
           <h2 className="text-darkBlue text-4xl font-bold">Your Profile</h2>
         </div>
         <div className="flex flex-row gap-6">
-          <Skeleton
-            isLoaded={data?.me?.avatar.options != null}
-            height={44}
-            width={44}
-          >
-            <Avatar
-              backgroundColor="#1A2557"
-              size={180}
-              avatarOptions={{
-                top: data?.me?.avatar.options?.top
-                  ? data?.me?.avatar.options?.top
-                  : ["sides"],
-
-                hairColor: data?.me?.avatar.options?.hairColor
-                  ? data?.me?.avatar.options?.hairColor
-                  : ["blonde"],
-
-                clothes: data?.me?.avatar.options?.clothes
-                  ? data?.me?.avatar.options?.clothes
-                  : ["shirtCrewNeck"],
-
-                clothesColor: data?.me?.avatar.options?.clothesColor
-                  ? data?.me?.avatar.options?.clothesColor
-                  : ["blue03"],
-
-                skin: data?.me?.avatar.options?.skin
-                  ? data?.me?.avatar.options?.skin
-                  : ["light"],
-
-                hatColor: data?.me?.avatar.options?.hatColor as
-                  | HatColor
-                  | undefined,
-                accessories: data?.me?.avatar.options?.accessories as
-                  | Accessories
-                  | undefined,
-
-                accessoriesColor: data?.me?.avatar.options?.accessoriesColor as
-                  | AccessoriesColor
-                  | undefined,
-
-                facialHair: data?.me?.avatar.options?.facialHair as
-                  | FacialHair
-                  | undefined,
-
-                facialHairColor: data?.me?.avatar.options?.facialHairColor as
-                  | FacialHairColor
-                  | undefined,
-
-                clotheGraphics: data?.me?.avatar.options?.clotheGraphics as
-                  | ClotheGraphics
-                  | undefined,
-
-                eyes: data?.me?.avatar.options?.eyes
-                  ? data?.me?.avatar.options?.eyes
-                  : (["default"] as Eyes | undefined),
-
-                eyebrow: data?.me?.avatar.options?.eyebrow
-                  ? data?.me?.avatar.options?.eyebrow
-                  : (["default"] as Eyebrow | undefined),
-
-                mouth: data?.me?.avatar.options?.mouth
-                  ? data?.me?.avatar.options?.mouth
-                  : (["default"] as Mouth | undefined),
-              }}
-            />
-          </Skeleton>
-
+          <Avatar
+            size={140}
+            name={data?.me?.name}
+            variant="bauhaus"
+            colors={["#1A2557", "#2415CD", "#F2E3CB", "#AE3028", "#DFC640"]}
+          />
           <div className="flex flex-col justify-between">
             <TextDataDisplay label="Name">
               <SkeletonText

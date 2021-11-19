@@ -1,0 +1,11 @@
+enum ReadingType {
+  play
+  novel
+  nonFiction
+}
+
+mutation CreateReading($title: String!, $author: String!, $type: ReadingType) {
+  createReading(data: { title: $title, author: $author, type: $type }) {
+    ...StandardReading
+  }
+}

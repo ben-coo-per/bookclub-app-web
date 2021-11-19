@@ -2,7 +2,7 @@ import { BookIcon } from "../../icons/BookIcon";
 
 interface ButtonProps {
   variant?: "solid" | "outline" | "link";
-  tailwindClasses?: string;
+  className?: string;
   children?: React.ReactNode;
   type?: "button" | "submit" | "reset" | undefined;
   onClick?: () => void;
@@ -12,7 +12,7 @@ interface ButtonProps {
 
 export const Button = ({
   variant = "solid",
-  tailwindClasses,
+  className,
   children,
   type,
   onClick,
@@ -26,7 +26,7 @@ export const Button = ({
           type={type}
           onClick={onClick}
           disabled={disabled || loading}
-          className={`p-2 border-2 border-midnightBlue text-midnightBlue rounded-md disabled:opacity-50 font-semibold font-serif tracking-wider ${tailwindClasses}`}
+          className={`p-2 border-2 border-midnightBlue text-midnightBlue rounded-md disabled:opacity-50 font-semibold font-serif tracking-wider ${className}`}
         >
           <div className="flex flex-row gap-1 items-end">
             {loading && (
@@ -46,7 +46,7 @@ export const Button = ({
           type={type}
           onClick={onClick}
           disabled={disabled || loading}
-          className={`text-midnightBlue underline rounded-md disabled:opacity-50 text-left text-sm font-semibold font-serif  ${tailwindClasses}`}
+          className={`text-midnightBlue underline rounded-md disabled:opacity-50 text-left text-sm font-semibold font-serif  ${className}`}
         >
           {children}
         </button>
@@ -57,8 +57,9 @@ export const Button = ({
   return (
     <button
       type={type}
+      onClick={onClick}
       disabled={disabled || loading}
-      className={`p-2 border-2 shadow-md border-midnightBlue bg-midnightBlue text-white disabled:opacity-75 rounded-md font-semibold font-serif tracking-wider  ${tailwindClasses}`}
+      className={`p-2 border-2 shadow-md border-midnightBlue bg-midnightBlue text-white disabled:opacity-75 rounded-md font-semibold font-serif tracking-wider  ${className}`}
     >
       <div className="flex flex-row gap-3 items-end">
         {loading && <BookIcon className="animate-spin" size="24" color="red" />}

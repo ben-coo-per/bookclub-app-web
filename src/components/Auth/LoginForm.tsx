@@ -44,8 +44,7 @@ export const LoginForm = () => {
             // Error occured when creating user
             setErrors(toErrorMap(response.data.login.errors));
           } else {
-            // Successfully returned member
-            console.log("success!");
+            // Successfully returned user
             navigate("/");
           }
         }}
@@ -55,11 +54,12 @@ export const LoginForm = () => {
             <TextInput
               label="Email"
               name="email"
-              placeholder="Enter your desired email"
+              placeholder="Enter your email"
               tailwindClasses="mx-auto w-full"
               value={values.email}
               onChange={handleChange}
             />
+
             <TextInput
               label="Password"
               name="password"
@@ -70,13 +70,25 @@ export const LoginForm = () => {
               onChange={handleChange}
             />
 
-            <span className="w-full flex flex-col justify-between items-center">
+            <span className="w-full flex flex-col gap-2 justify-between items-center">
               <Button type="submit" loading={isSubmitting}>
                 Sign In
               </Button>
-              <Button variant="link" onClick={() => navigate("/auth/register")}>
-                Create an Account
-              </Button>
+              <span className="flex flex-row-reverse justify-between w-full">
+                <Button
+                  variant="link"
+                  onClick={() => navigate("/auth/register")}
+                >
+                  Create an Account
+                </Button>
+                <Button
+                  variant="link"
+                  className="text-xs ml-1"
+                  onClick={() => navigate("/auth/forgot")}
+                >
+                  Forgot Password
+                </Button>
+              </span>
             </span>
           </form>
         )}

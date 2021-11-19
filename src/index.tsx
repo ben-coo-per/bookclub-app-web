@@ -2,7 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-import { Provider, createClient, dedupExchange, fetchExchange } from "urql";
+import {
+  Provider as UrqlProvider,
+  createClient,
+  dedupExchange,
+  fetchExchange,
+} from "urql";
 import { cacheExchange } from "@urql/exchange-graphcache";
 import {
   LoginMutation,
@@ -12,6 +17,8 @@ import {
   RegisterMutation,
 } from "./generated/graphql";
 import { betterUpdateQuery } from "./utils/betterUpdateQuery";
+import { store } from "./store";
+import { Provider as ReduxProvider } from "react-redux";
 
 const client = createClient({
   url: "http://localhost:4000/graphql",
@@ -32,7 +39,7 @@ const client = createClient({
                 if (result.login?.errors && result.login?.errors.length > 0) {
                   return query;
                 } else {
-                  return { me: result.login?.member };
+                  return { me: result.login?.user };
                 }
               }
             );
@@ -49,7 +56,7 @@ const client = createClient({
                 ) {
                   return query;
                 } else {
-                  return { me: result.register?.member };
+                  return { me: result.register?.user };
                 }
               }
             );
@@ -77,9 +84,11 @@ const client = createClient({
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider value={client}>
-      <App />
-    </Provider>
+    <ReduxProvider store={store}>
+      <UrqlProvider value={client}>
+        <App />
+      </UrqlProvider>
+    </ReduxProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

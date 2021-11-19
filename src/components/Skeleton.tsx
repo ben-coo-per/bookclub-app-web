@@ -2,8 +2,8 @@ interface SkeletonProps {
   children?: React.ReactNode;
   isLoaded?: boolean;
   isError?: boolean;
-  height?: number;
-  width?: number;
+  className?: string;
+  variant?: "default" | "list";
 }
 
 interface SkeletonTextProps extends SkeletonProps {
@@ -32,18 +32,30 @@ export const Skeleton = ({
   children,
   isLoaded = false,
   isError = false,
-  height,
-  width,
+  className,
+  variant = "default",
 }: SkeletonProps) => {
   if (isLoaded) {
     return <div>{children}</div>;
   }
 
+  if (variant === "list") {
+    return (
+      <div className="flex flex-col w-full">
+        <div
+          className={`rounded-xl w-full bg-champagne animate-pulse ${className}`}
+        />
+        <div
+          className={`rounded-xl w-full bg-champagne animate-pulse ${className}`}
+        />
+        <div
+          className={`rounded-xl w-full bg-champagne animate-pulse ${className}`}
+        />
+      </div>
+    );
+  }
+
   return (
-    <div
-      className={`h-${height ? height : "full"} w-${
-        width ? width : "full"
-      } rounded-md bg-champagne animate-pulse`}
-    />
+    <div className={`rounded-xl bg-champagne animate-pulse ${className}`} />
   );
 };

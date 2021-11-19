@@ -1,0 +1,3 @@
+mutation DeleteReading($ids: [Int!]!) {
+  deleteReading(ids: $ids)
+}

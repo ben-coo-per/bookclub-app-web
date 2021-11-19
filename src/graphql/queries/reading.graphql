@@ -1,11 +1,17 @@
 query AllReadings {
-  readings {
-    ...ReadingStandard
+  allReadings {
+    ...StandardReading
+  }
+}
+
+query CurrentlyReading {
+  currentlyReading {
+    ...StandardReading
   }
 }
 
 query Reading($id: Int!) {
   reading(id: $id) {
-    ...ReadingStandard
+    ...StandardReading
   }
 }

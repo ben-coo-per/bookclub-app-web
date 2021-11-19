@@ -1,0 +1,7 @@
+mutation AddRating($rating: Float!, $readingId: Float!) {
+  addRating(input: { rating: $rating, readingId: $readingId }) {
+    id
+    readingId
+    rating
+  }
+}

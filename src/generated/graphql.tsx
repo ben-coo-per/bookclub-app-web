@@ -14,292 +14,60 @@ export type Scalars = {
   Float: number;
 };
 
-export enum Accessories {
-  Kurt = 'kurt',
-  Prescription01 = 'prescription01',
-  Prescription02 = 'prescription02',
-  Round = 'round',
-  Sunglasses = 'sunglasses',
-  Wayfarers = 'wayfarers'
-}
-
-export enum AccessoriesColor {
-  Black = 'black',
-  Blue = 'blue',
-  Blue01 = 'blue01',
-  Blue02 = 'blue02',
-  Blue03 = 'blue03',
-  Gray = 'gray',
-  Gray01 = 'gray01',
-  Gray02 = 'gray02',
-  Heather = 'heather',
-  Pastel = 'pastel',
-  PastelBlue = 'pastelBlue',
-  PastelGreen = 'pastelGreen',
-  PastelOrange = 'pastelOrange',
-  PastelRed = 'pastelRed',
-  PastelYellow = 'pastelYellow',
-  Pink = 'pink',
-  Red = 'red',
-  White = 'white'
-}
-
-/** Avatar options type */
-export type AvatarOptionsType = {
-  __typename?: 'AvatarOptionsType';
-  accessories?: Maybe<Array<Accessories>>;
-  accessoriesColor?: Maybe<Array<AccessoriesColor>>;
-  clotheGraphics?: Maybe<Array<ClotheGraphics>>;
-  clothes: Array<Clothes>;
-  clothesColor: Array<ClothesColor>;
-  eyebrow?: Maybe<Array<Eyebrow>>;
-  eyes?: Maybe<Array<Eyes>>;
-  facialHair?: Maybe<Array<FacialHair>>;
-  facialHairColor?: Maybe<Array<FacialHairColor>>;
-  hairColor: Array<HairColor>;
-  hatColor?: Maybe<Array<HatColor>>;
-  mouth?: Maybe<Array<Mouth>>;
-  skin: Array<Skin>;
-  top: Array<Top>;
-};
-
-/** Avatar model that includes both seed and options for customization */
-export type AvatarType = {
-  __typename?: 'AvatarType';
-  isSet: Scalars['Boolean'];
-  options?: Maybe<AvatarOptionsType>;
-};
-
-export enum ClotheGraphics {
-  Bat = 'bat',
-  Bear = 'bear',
-  Cumbia = 'cumbia',
-  Deer = 'deer',
-  Diamond = 'diamond',
-  Hola = 'hola',
-  Pizza = 'pizza',
-  Resist = 'resist',
-  Skull = 'skull',
-  SkullOutline = 'skullOutline'
-}
-
-export enum Clothes {
-  Blazer = 'blazer',
-  BlazerAndShirt = 'blazerAndShirt',
-  BlazerAndSweater = 'blazerAndSweater',
-  CollarAndSweater = 'collarAndSweater',
-  GraphicShirt = 'graphicShirt',
-  Hoodie = 'hoodie',
-  Overall = 'overall',
-  Shirt = 'shirt',
-  ShirtCrewNeck = 'shirtCrewNeck',
-  ShirtScoopNeck = 'shirtScoopNeck',
-  ShirtVNeck = 'shirtVNeck',
-  Sweater = 'sweater'
-}
-
-export enum ClothesColor {
-  Black = 'black',
-  Blue = 'blue',
-  Blue01 = 'blue01',
-  Blue02 = 'blue02',
-  Blue03 = 'blue03',
-  Gray = 'gray',
-  Gray01 = 'gray01',
-  Gray02 = 'gray02',
-  Heather = 'heather',
-  Pastel = 'pastel',
-  PastelBlue = 'pastelBlue',
-  PastelGreen = 'pastelGreen',
-  PastelOrange = 'pastelOrange',
-  PastelRed = 'pastelRed',
-  PastelYellow = 'pastelYellow',
-  Pink = 'pink',
-  Red = 'red',
-  White = 'white'
-}
-
-export enum Eyebrow {
-  Angry = 'angry',
-  AngryNatural = 'angryNatural',
-  Default = 'default',
-  DefaultNatural = 'defaultNatural',
-  Flat = 'flat',
-  FlatNatural = 'flatNatural',
-  Frown = 'frown',
-  FrownNatural = 'frownNatural',
-  Raised = 'raised',
-  RaisedExcited = 'raisedExcited',
-  RaisedExcitedNatural = 'raisedExcitedNatural',
-  Sad = 'sad',
-  SadConcerned = 'sadConcerned',
-  SadConcernedNatural = 'sadConcernedNatural',
-  Unibrow = 'unibrow',
-  UnibrowNatural = 'unibrowNatural',
-  Up = 'up',
-  UpDown = 'upDown',
-  UpDownNatural = 'upDownNatural'
-}
-
-export enum Eyes {
-  Close = 'close',
-  Closed = 'closed',
-  Cry = 'cry',
-  Default = 'default',
-  Dizzy = 'dizzy',
-  EyeRoll = 'eyeRoll',
-  Happy = 'happy',
-  Hearts = 'hearts',
-  Roll = 'roll',
-  Side = 'side',
-  Squint = 'squint',
-  Surprised = 'surprised',
-  Wink = 'wink',
-  WinkWacky = 'winkWacky',
-  XDizzy = 'xDizzy'
-}
-
-export enum FacialHair {
-  BeardLight = 'beardLight',
-  BeardMajestic = 'beardMajestic',
-  BeardMedium = 'beardMedium',
-  Fancy = 'fancy',
-  Light = 'light',
-  Magnum = 'magnum',
-  Majestic = 'majestic',
-  Medium = 'medium',
-  MoustaceFancy = 'moustaceFancy',
-  MoustacheMagnum = 'moustacheMagnum'
-}
-
-export enum FacialHairColor {
-  Auburn = 'auburn',
-  Black = 'black',
-  Blonde = 'blonde',
-  BlondeGolden = 'blondeGolden',
-  Brown = 'brown',
-  BrownDark = 'brownDark',
-  Gray = 'gray',
-  Pastel = 'pastel',
-  PastelPink = 'pastelPink',
-  Platinum = 'platinum',
-  Red = 'red',
-  SilverGray = 'silverGray'
-}
-
 export type FieldError = {
   __typename?: 'FieldError';
   field: Scalars['String'];
   message: Scalars['String'];
 };
 
-export enum HairColor {
-  Auburn = 'auburn',
-  Black = 'black',
-  Blonde = 'blonde',
-  BlondeGolden = 'blondeGolden',
-  Brown = 'brown',
-  BrownDark = 'brownDark',
-  Gray = 'gray',
-  Pastel = 'pastel',
-  PastelPink = 'pastelPink',
-  Platinum = 'platinum',
-  Red = 'red',
-  SilverGray = 'silverGray'
-}
-
-export enum HatColor {
-  Black = 'black',
-  Blue = 'blue',
-  Blue01 = 'blue01',
-  Blue02 = 'blue02',
-  Blue03 = 'blue03',
-  Gray = 'gray',
-  Gray01 = 'gray01',
-  Gray02 = 'gray02',
-  Heather = 'heather',
-  Pastel = 'pastel',
-  PastelBlue = 'pastelBlue',
-  PastelGreen = 'pastelGreen',
-  PastelOrange = 'pastelOrange',
-  PastelRed = 'pastelRed',
-  PastelYellow = 'pastelYellow',
-  Pink = 'pink',
-  Red = 'red',
-  White = 'white'
-}
-
-export type Meeting = {
-  __typename?: 'Meeting';
-  createdAt: Scalars['String'];
-  id: Scalars['Int'];
-  readTo: Scalars['String'];
-  readToType: Scalars['String'];
-  updatedAt: Scalars['String'];
-  weekNumber: Scalars['Int'];
-};
-
-export type Member = {
-  __typename?: 'Member';
-  avatar: AvatarType;
-  createdAt: Scalars['String'];
-  email: Scalars['String'];
-  id: Scalars['Int'];
-  name: Scalars['String'];
-  updatedAt: Scalars['String'];
-};
-
-export type MemberInputFields = {
-  email: Scalars['String'];
-  password: Scalars['String'];
-};
-
-export type MemberResponse = {
-  __typename?: 'MemberResponse';
-  errors?: Maybe<Array<FieldError>>;
-  member?: Maybe<Member>;
-};
-
-export enum Mouth {
-  Concerned = 'concerned',
-  Default = 'default',
-  Disbelief = 'disbelief',
-  Eating = 'eating',
-  Grimace = 'grimace',
-  Sad = 'sad',
-  Scream = 'scream',
-  ScreamOpen = 'screamOpen',
-  Serious = 'serious',
-  Smile = 'smile',
-  Tongue = 'tongue',
-  Twinkle = 'twinkle',
-  Vomit = 'vomit'
-}
-
 export type Mutation = {
   __typename?: 'Mutation';
+  /** Create a new rating */
+  addRating: Rating;
+  changePassword: UserResponse;
+  /** Create a new Reading */
   createReading: Reading;
+  /** Delete an existing Reading */
   deleteReading: Scalars['Boolean'];
-  login?: Maybe<MemberResponse>;
+  forgotPassword: Scalars['Boolean'];
+  login?: Maybe<UserResponse>;
   logout: Scalars['Boolean'];
-  register?: Maybe<MemberResponse>;
+  register?: Maybe<UserResponse>;
+  /** Update an existing rating */
+  updateRating: Rating;
+  /** Update an existing Reading */
   updateReading?: Maybe<Reading>;
 };
 
 
+export type MutationAddRatingArgs = {
+  input: RatingInput;
+};
+
+
+export type MutationChangePasswordArgs = {
+  newPassword: Scalars['String'];
+  token: Scalars['String'];
+};
+
+
 export type MutationCreateReadingArgs = {
-  author: Scalars['String'];
-  title: Scalars['String'];
+  data: ReadingInput;
 };
 
 
 export type MutationDeleteReadingArgs = {
-  id: Scalars['Int'];
+  ids: Array<Scalars['Int']>;
+};
+
+
+export type MutationForgotPasswordArgs = {
+  email: Scalars['String'];
 };
 
 
 export type MutationLoginArgs = {
-  options: MemberInputFields;
+  options: UserInputFields;
 };
 
 
@@ -308,16 +76,35 @@ export type MutationRegisterArgs = {
 };
 
 
-export type MutationUpdateReadingArgs = {
+export type MutationUpdateRatingArgs = {
   id: Scalars['Int'];
-  title?: Maybe<Scalars['String']>;
+  newRating: Scalars['Int'];
+};
+
+
+export type MutationUpdateReadingArgs = {
+  data: UpdateReadingInput;
+  id: Scalars['Int'];
 };
 
 export type Query = {
   __typename?: 'Query';
-  me?: Maybe<Member>;
+  /** Get all Readings */
+  allReadings: Array<Reading>;
+  /** Get all Readings */
+  currentlyReading: Array<Reading>;
+  me?: Maybe<User>;
+  /** Get Ratings on a Reading based on given ID */
+  rating: Array<Rating>;
+  /** Get Reading based on given ID */
   reading?: Maybe<Reading>;
-  readings: Array<Reading>;
+  /** Get Ratings on a Reading based on given ID and userID */
+  userRating: Rating;
+};
+
+
+export type QueryRatingArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -325,16 +112,52 @@ export type QueryReadingArgs = {
   id: Scalars['Int'];
 };
 
+
+export type QueryUserRatingArgs = {
+  readingId: Scalars['Int'];
+};
+
+export type Rating = {
+  __typename?: 'Rating';
+  createdAt: Scalars['String'];
+  id: Scalars['Int'];
+  /** User's rating from 1 to 5 */
+  rating: Scalars['Int'];
+  readingId: Scalars['Int'];
+  updatedAt: Scalars['String'];
+  userId: Scalars['Float'];
+};
+
+export type RatingInput = {
+  rating: Scalars['Float'];
+  readingId: Scalars['Float'];
+};
+
+/** A Reading the club has completed. Could be a book, article, play, etc. */
 export type Reading = {
   __typename?: 'Reading';
   author: Scalars['String'];
+  avgRating?: Maybe<Scalars['Float']>;
   createdAt: Scalars['String'];
+  currentlyReading: Scalars['Boolean'];
   id: Scalars['Int'];
-  meetings: Array<Meeting>;
-  rating: Scalars['Float'];
   title: Scalars['String'];
+  type?: Maybe<ReadingType>;
   updatedAt: Scalars['String'];
 };
+
+export type ReadingInput = {
+  author: Scalars['String'];
+  title: Scalars['String'];
+  type?: Maybe<ReadingType>;
+};
+
+/** The different options for the type of reading */
+export enum ReadingType {
+  NonFiction = 'nonFiction',
+  Novel = 'novel',
+  Play = 'play'
+}
 
 export type SignUpInputFields = {
   email: Scalars['String'];
@@ -342,59 +165,96 @@ export type SignUpInputFields = {
   password: Scalars['String'];
 };
 
-export enum Skin {
-  Black = 'black',
-  Brown = 'brown',
-  DarkBrown = 'darkBrown',
-  Light = 'light',
-  Pale = 'pale',
-  Tanned = 'tanned',
-  Yellow = 'yellow'
-}
+export type UpdateReadingInput = {
+  author?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  type?: Maybe<ReadingType>;
+};
 
-export enum Top {
-  BigHair = 'bigHair',
-  Bob = 'bob',
-  Bun = 'bun',
-  Curly = 'curly',
-  Curvy = 'curvy',
-  Dreads = 'dreads',
-  Dreads01 = 'dreads01',
-  Dreads02 = 'dreads02',
-  Eyepatch = 'eyepatch',
-  Frida = 'frida',
-  Frizzle = 'frizzle',
-  Fro = 'fro',
-  FroAndBand = 'froAndBand',
-  Hat = 'hat',
-  Hijab = 'hijab',
-  LongButNotTooLong = 'longButNotTooLong',
-  LongHair = 'longHair',
-  MiaWallace = 'miaWallace',
-  Shaggy = 'shaggy',
-  ShaggyMullet = 'shaggyMullet',
-  ShavedSides = 'shavedSides',
-  ShortCurly = 'shortCurly',
-  ShortFlat = 'shortFlat',
-  ShortHair = 'shortHair',
-  ShortRound = 'shortRound',
-  ShortWaved = 'shortWaved',
-  Sides = 'sides',
-  Straight01 = 'straight01',
-  Straight02 = 'straight02',
-  StraightAndStrand = 'straightAndStrand',
-  TheCaesar = 'theCaesar',
-  TheCaesarAndSidePart = 'theCaesarAndSidePart',
-  Turban = 'turban',
-  WinterHat01 = 'winterHat01',
-  WinterHat02 = 'winterHat02',
-  WinterHat03 = 'winterHat03',
-  WinterHat04 = 'winterHat04'
-}
+export type User = {
+  __typename?: 'User';
+  createdAt: Scalars['String'];
+  email: Scalars['String'];
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  updatedAt: Scalars['String'];
+};
 
-export type BasicFieldMemberFragment = { __typename?: 'Member', id: number, name: string, avatar: { __typename?: 'AvatarType', isSet: boolean, options?: { __typename?: 'AvatarOptionsType', top: Array<Top>, hatColor?: Array<HatColor> | null | undefined, hairColor: Array<HairColor>, accessories?: Array<Accessories> | null | undefined, accessoriesColor?: Array<AccessoriesColor> | null | undefined, facialHair?: Array<FacialHair> | null | undefined, facialHairColor?: Array<FacialHairColor> | null | undefined, clothes: Array<Clothes>, clothesColor: Array<ClothesColor>, clotheGraphics?: Array<ClotheGraphics> | null | undefined, eyes?: Array<Eyes> | null | undefined, eyebrow?: Array<Eyebrow> | null | undefined, mouth?: Array<Mouth> | null | undefined, skin: Array<Skin> } | null | undefined } };
+export type UserInputFields = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+};
 
-export type ReadingStandardFragment = { __typename?: 'Reading', id: number, createdAt: string, updatedAt: string, title: string, author: string };
+export type UserResponse = {
+  __typename?: 'UserResponse';
+  errors?: Maybe<Array<FieldError>>;
+  user?: Maybe<User>;
+};
+
+export type StandardReadingFragment = { __typename?: 'Reading', id: number, title: string, author: string, type?: ReadingType | null | undefined, avgRating?: number | null | undefined, currentlyReading: boolean, createdAt: string, updatedAt: string };
+
+export type StandardErrorFragment = { __typename?: 'FieldError', field: string, message: string };
+
+export type StandardUserFragment = { __typename?: 'User', id: number, name: string };
+
+export type StandardUserResponseFragment = { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined, user?: { __typename?: 'User', id: number, name: string } | null | undefined };
+
+export type AddRatingMutationVariables = Exact<{
+  rating: Scalars['Float'];
+  readingId: Scalars['Float'];
+}>;
+
+
+export type AddRatingMutation = { __typename?: 'Mutation', addRating: { __typename?: 'Rating', id: number, readingId: number, rating: number } };
+
+export type UpdateRatingMutationVariables = Exact<{
+  id: Scalars['Int'];
+  newRating: Scalars['Int'];
+}>;
+
+
+export type UpdateRatingMutation = { __typename?: 'Mutation', updateRating: { __typename?: 'Rating', id: number, rating: number, readingId: number } };
+
+export type CreateReadingMutationVariables = Exact<{
+  title: Scalars['String'];
+  author: Scalars['String'];
+  type?: Maybe<ReadingType>;
+}>;
+
+
+export type CreateReadingMutation = { __typename?: 'Mutation', createReading: { __typename?: 'Reading', id: number, title: string, author: string, type?: ReadingType | null | undefined, avgRating?: number | null | undefined, currentlyReading: boolean, createdAt: string, updatedAt: string } };
+
+export type DeleteReadingMutationVariables = Exact<{
+  ids: Array<Scalars['Int']> | Scalars['Int'];
+}>;
+
+
+export type DeleteReadingMutation = { __typename?: 'Mutation', deleteReading: boolean };
+
+export type UpdateReadingMutationVariables = Exact<{
+  title?: Maybe<Scalars['String']>;
+  author?: Maybe<Scalars['String']>;
+  type?: Maybe<ReadingType>;
+  id: Scalars['Int'];
+}>;
+
+
+export type UpdateReadingMutation = { __typename?: 'Mutation', updateReading?: { __typename?: 'Reading', id: number, title: string, author: string, type?: ReadingType | null | undefined, avgRating?: number | null | undefined, currentlyReading: boolean, createdAt: string, updatedAt: string } | null | undefined };
+
+export type ChangePasswordMutationVariables = Exact<{
+  newPassword: Scalars['String'];
+  token: Scalars['String'];
+}>;
+
+
+export type ChangePasswordMutation = { __typename?: 'Mutation', changePassword: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined, user?: { __typename?: 'User', id: number, name: string } | null | undefined } };
+
+export type ForgotPasswordMutationVariables = Exact<{
+  email: Scalars['String'];
+}>;
+
+
+export type ForgotPasswordMutation = { __typename?: 'Mutation', forgotPassword: boolean };
 
 export type LoginMutationVariables = Exact<{
   email: Scalars['String'];
@@ -402,25 +262,12 @@ export type LoginMutationVariables = Exact<{
 }>;
 
 
-export type LoginMutation = { __typename?: 'Mutation', login?: { __typename?: 'MemberResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined, member?: { __typename?: 'Member', id: number, name: string, avatar: { __typename?: 'AvatarType', isSet: boolean, options?: { __typename?: 'AvatarOptionsType', top: Array<Top>, hatColor?: Array<HatColor> | null | undefined, hairColor: Array<HairColor>, accessories?: Array<Accessories> | null | undefined, accessoriesColor?: Array<AccessoriesColor> | null | undefined, facialHair?: Array<FacialHair> | null | undefined, facialHairColor?: Array<FacialHairColor> | null | undefined, clothes: Array<Clothes>, clothesColor: Array<ClothesColor>, clotheGraphics?: Array<ClotheGraphics> | null | undefined, eyes?: Array<Eyes> | null | undefined, eyebrow?: Array<Eyebrow> | null | undefined, mouth?: Array<Mouth> | null | undefined, skin: Array<Skin> } | null | undefined } } | null | undefined } | null | undefined };
+export type LoginMutation = { __typename?: 'Mutation', login?: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined, user?: { __typename?: 'User', id: number, name: string } | null | undefined } | null | undefined };
 
 export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 
 export type LogoutMutation = { __typename?: 'Mutation', logout: boolean };
-
-export type CreateReadingMutationVariables = Exact<{
-  title: Scalars['String'];
-  author: Scalars['String'];
-}>;
-
-
-export type CreateReadingMutation = { __typename?: 'Mutation', createReading: { __typename?: 'Reading', id: number, title: string, author: string, createdAt: string } };
-
-export type DeleteReadingMutationVariables = Exact<{ [key: string]: never; }>;
-
-
-export type DeleteReadingMutation = { __typename?: 'Mutation', deleteReading: boolean };
 
 export type RegisterMutationVariables = Exact<{
   email: Scalars['String'];
@@ -429,72 +276,156 @@ export type RegisterMutationVariables = Exact<{
 }>;
 
 
-export type RegisterMutation = { __typename?: 'Mutation', register?: { __typename?: 'MemberResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined, member?: { __typename?: 'Member', id: number, name: string, avatar: { __typename?: 'AvatarType', isSet: boolean, options?: { __typename?: 'AvatarOptionsType', top: Array<Top>, hatColor?: Array<HatColor> | null | undefined, hairColor: Array<HairColor>, accessories?: Array<Accessories> | null | undefined, accessoriesColor?: Array<AccessoriesColor> | null | undefined, facialHair?: Array<FacialHair> | null | undefined, facialHairColor?: Array<FacialHairColor> | null | undefined, clothes: Array<Clothes>, clothesColor: Array<ClothesColor>, clotheGraphics?: Array<ClotheGraphics> | null | undefined, eyes?: Array<Eyes> | null | undefined, eyebrow?: Array<Eyebrow> | null | undefined, mouth?: Array<Mouth> | null | undefined, skin: Array<Skin> } | null | undefined } } | null | undefined } | null | undefined };
+export type RegisterMutation = { __typename?: 'Mutation', register?: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined, user?: { __typename?: 'User', id: number, name: string } | null | undefined } | null | undefined };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'Member', id: number, name: string, avatar: { __typename?: 'AvatarType', isSet: boolean, options?: { __typename?: 'AvatarOptionsType', top: Array<Top>, hatColor?: Array<HatColor> | null | undefined, hairColor: Array<HairColor>, accessories?: Array<Accessories> | null | undefined, accessoriesColor?: Array<AccessoriesColor> | null | undefined, facialHair?: Array<FacialHair> | null | undefined, facialHairColor?: Array<FacialHairColor> | null | undefined, clothes: Array<Clothes>, clothesColor: Array<ClothesColor>, clotheGraphics?: Array<ClotheGraphics> | null | undefined, eyes?: Array<Eyes> | null | undefined, eyebrow?: Array<Eyebrow> | null | undefined, mouth?: Array<Mouth> | null | undefined, skin: Array<Skin> } | null | undefined } } | null | undefined };
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, name: string } | null | undefined };
+
+export type GetUserRatingQueryVariables = Exact<{
+  readingId: Scalars['Int'];
+}>;
+
+
+export type GetUserRatingQuery = { __typename?: 'Query', userRating: { __typename?: 'Rating', id: number, userId: number, readingId: number, rating: number } };
 
 export type AllReadingsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllReadingsQuery = { __typename?: 'Query', readings: Array<{ __typename?: 'Reading', id: number, createdAt: string, updatedAt: string, title: string, author: string }> };
+export type AllReadingsQuery = { __typename?: 'Query', allReadings: Array<{ __typename?: 'Reading', id: number, title: string, author: string, type?: ReadingType | null | undefined, avgRating?: number | null | undefined, currentlyReading: boolean, createdAt: string, updatedAt: string }> };
+
+export type CurrentlyReadingQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CurrentlyReadingQuery = { __typename?: 'Query', currentlyReading: Array<{ __typename?: 'Reading', id: number, title: string, author: string, type?: ReadingType | null | undefined, avgRating?: number | null | undefined, currentlyReading: boolean, createdAt: string, updatedAt: string }> };
 
 export type ReadingQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type ReadingQuery = { __typename?: 'Query', reading?: { __typename?: 'Reading', id: number, createdAt: string, updatedAt: string, title: string, author: string } | null | undefined };
+export type ReadingQuery = { __typename?: 'Query', reading?: { __typename?: 'Reading', id: number, title: string, author: string, type?: ReadingType | null | undefined, avgRating?: number | null | undefined, currentlyReading: boolean, createdAt: string, updatedAt: string } | null | undefined };
 
-export const BasicFieldMemberFragmentDoc = gql`
-    fragment BasicFieldMember on Member {
+export const StandardReadingFragmentDoc = gql`
+    fragment StandardReading on Reading {
+  id
+  title
+  author
+  type
+  avgRating
+  currentlyReading
+  createdAt
+  updatedAt
+}
+    `;
+export const StandardErrorFragmentDoc = gql`
+    fragment StandardError on FieldError {
+  field
+  message
+}
+    `;
+export const StandardUserFragmentDoc = gql`
+    fragment StandardUser on User {
   id
   name
-  avatar {
-    isSet
-    options {
-      top
-      hatColor
-      hairColor
-      accessories
-      accessoriesColor
-      facialHair
-      facialHairColor
-      clothes
-      clothesColor
-      clotheGraphics
-      eyes
-      eyebrow
-      mouth
-      skin
-    }
+}
+    `;
+export const StandardUserResponseFragmentDoc = gql`
+    fragment StandardUserResponse on UserResponse {
+  errors {
+    ...StandardError
+  }
+  user {
+    ...StandardUser
+  }
+}
+    ${StandardErrorFragmentDoc}
+${StandardUserFragmentDoc}`;
+export const AddRatingDocument = gql`
+    mutation AddRating($rating: Float!, $readingId: Float!) {
+  addRating(input: {rating: $rating, readingId: $readingId}) {
+    id
+    readingId
+    rating
   }
 }
     `;
-export const ReadingStandardFragmentDoc = gql`
-    fragment ReadingStandard on Reading {
-  id
-  createdAt
-  updatedAt
-  title
-  author
+
+export function useAddRatingMutation() {
+  return Urql.useMutation<AddRatingMutation, AddRatingMutationVariables>(AddRatingDocument);
+};
+export const UpdateRatingDocument = gql`
+    mutation UpdateRating($id: Int!, $newRating: Int!) {
+  updateRating(id: $id, newRating: $newRating) {
+    id
+    rating
+    readingId
+  }
 }
     `;
+
+export function useUpdateRatingMutation() {
+  return Urql.useMutation<UpdateRatingMutation, UpdateRatingMutationVariables>(UpdateRatingDocument);
+};
+export const CreateReadingDocument = gql`
+    mutation CreateReading($title: String!, $author: String!, $type: ReadingType) {
+  createReading(data: {title: $title, author: $author, type: $type}) {
+    ...StandardReading
+  }
+}
+    ${StandardReadingFragmentDoc}`;
+
+export function useCreateReadingMutation() {
+  return Urql.useMutation<CreateReadingMutation, CreateReadingMutationVariables>(CreateReadingDocument);
+};
+export const DeleteReadingDocument = gql`
+    mutation DeleteReading($ids: [Int!]!) {
+  deleteReading(ids: $ids)
+}
+    `;
+
+export function useDeleteReadingMutation() {
+  return Urql.useMutation<DeleteReadingMutation, DeleteReadingMutationVariables>(DeleteReadingDocument);
+};
+export const UpdateReadingDocument = gql`
+    mutation UpdateReading($title: String, $author: String, $type: ReadingType, $id: Int!) {
+  updateReading(data: {title: $title, author: $author, type: $type}, id: $id) {
+    ...StandardReading
+  }
+}
+    ${StandardReadingFragmentDoc}`;
+
+export function useUpdateReadingMutation() {
+  return Urql.useMutation<UpdateReadingMutation, UpdateReadingMutationVariables>(UpdateReadingDocument);
+};
+export const ChangePasswordDocument = gql`
+    mutation ChangePassword($newPassword: String!, $token: String!) {
+  changePassword(newPassword: $newPassword, token: $token) {
+    ...StandardUserResponse
+  }
+}
+    ${StandardUserResponseFragmentDoc}`;
+
+export function useChangePasswordMutation() {
+  return Urql.useMutation<ChangePasswordMutation, ChangePasswordMutationVariables>(ChangePasswordDocument);
+};
+export const ForgotPasswordDocument = gql`
+    mutation ForgotPassword($email: String!) {
+  forgotPassword(email: $email)
+}
+    `;
+
+export function useForgotPasswordMutation() {
+  return Urql.useMutation<ForgotPasswordMutation, ForgotPasswordMutationVariables>(ForgotPasswordDocument);
+};
 export const LoginDocument = gql`
     mutation Login($email: String!, $password: String!) {
   login(options: {email: $email, password: $password}) {
-    errors {
-      field
-      message
-    }
-    member {
-      ...BasicFieldMember
-    }
+    ...StandardUserResponse
   }
 }
-    ${BasicFieldMemberFragmentDoc}`;
+    ${StandardUserResponseFragmentDoc}`;
 
 export function useLoginMutation() {
   return Urql.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument);
@@ -508,42 +439,13 @@ export const LogoutDocument = gql`
 export function useLogoutMutation() {
   return Urql.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument);
 };
-export const CreateReadingDocument = gql`
-    mutation CreateReading($title: String!, $author: String!) {
-  createReading(title: $title, author: $author) {
-    id
-    title
-    author
-    createdAt
-  }
-}
-    `;
-
-export function useCreateReadingMutation() {
-  return Urql.useMutation<CreateReadingMutation, CreateReadingMutationVariables>(CreateReadingDocument);
-};
-export const DeleteReadingDocument = gql`
-    mutation DeleteReading {
-  deleteReading(id: 1)
-}
-    `;
-
-export function useDeleteReadingMutation() {
-  return Urql.useMutation<DeleteReadingMutation, DeleteReadingMutationVariables>(DeleteReadingDocument);
-};
 export const RegisterDocument = gql`
     mutation Register($email: String!, $password: String!, $name: String!) {
   register(options: {email: $email, password: $password, name: $name}) {
-    errors {
-      field
-      message
-    }
-    member {
-      ...BasicFieldMember
-    }
+    ...StandardUserResponse
   }
 }
-    ${BasicFieldMemberFragmentDoc}`;
+    ${StandardUserResponseFragmentDoc}`;
 
 export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
@@ -551,32 +453,57 @@ export function useRegisterMutation() {
 export const MeDocument = gql`
     query Me {
   me {
-    ...BasicFieldMember
+    ...StandardUser
   }
 }
-    ${BasicFieldMemberFragmentDoc}`;
+    ${StandardUserFragmentDoc}`;
 
 export function useMeQuery(options: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<MeQuery>({ query: MeDocument, ...options });
 };
-export const AllReadingsDocument = gql`
-    query AllReadings {
-  readings {
-    ...ReadingStandard
+export const GetUserRatingDocument = gql`
+    query getUserRating($readingId: Int!) {
+  userRating(readingId: $readingId) {
+    id
+    userId
+    readingId
+    rating
   }
 }
-    ${ReadingStandardFragmentDoc}`;
+    `;
+
+export function useGetUserRatingQuery(options: Omit<Urql.UseQueryArgs<GetUserRatingQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<GetUserRatingQuery>({ query: GetUserRatingDocument, ...options });
+};
+export const AllReadingsDocument = gql`
+    query AllReadings {
+  allReadings {
+    ...StandardReading
+  }
+}
+    ${StandardReadingFragmentDoc}`;
 
 export function useAllReadingsQuery(options: Omit<Urql.UseQueryArgs<AllReadingsQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<AllReadingsQuery>({ query: AllReadingsDocument, ...options });
 };
+export const CurrentlyReadingDocument = gql`
+    query CurrentlyReading {
+  currentlyReading {
+    ...StandardReading
+  }
+}
+    ${StandardReadingFragmentDoc}`;
+
+export function useCurrentlyReadingQuery(options: Omit<Urql.UseQueryArgs<CurrentlyReadingQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<CurrentlyReadingQuery>({ query: CurrentlyReadingDocument, ...options });
+};
 export const ReadingDocument = gql`
     query Reading($id: Int!) {
   reading(id: $id) {
-    ...ReadingStandard
+    ...StandardReading
   }
 }
-    ${ReadingStandardFragmentDoc}`;
+    ${StandardReadingFragmentDoc}`;
 
 export function useReadingQuery(options: Omit<Urql.UseQueryArgs<ReadingQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<ReadingQuery>({ query: ReadingDocument, ...options });

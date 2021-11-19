@@ -25,12 +25,19 @@ module.exports = {
         sans: ["Ubuntu", "sans-serif"],
         serif: ["Lora", "serif"],
       },
+
+      // gridTemplateColumns: {
+      //   // Simple 16 column grid
+      //   16: "repeat(16, minmax(0, 1fr))",
+      // },
     },
   },
   variants: {
     extend: {
       opacity: ["disabled"],
+      backgroundColor: ["checked"],
+      borderColor: ["checked"],
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/forms")],
 };

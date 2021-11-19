@@ -2,5 +2,8 @@ export { Home } from "./Home";
 export { History } from "./History";
 export { Attendance } from "./Attendance";
 export { Profile } from "./Profile";
+export { Auth } from "./Auth";
 export { Register } from "./auth/Register";
 export { Login } from "./auth/Login";
+export { Forgot } from "./auth/Forgot";
+export { ChangePassword } from "./auth/ChangePassword";

@@ -1,6 +1,17 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ChangePasswordForm } from "./components/Auth/ChangePasswordForm";
+import { ForgotForm } from "./components/Auth/ForgotForm";
 import { NavBar } from "./components/Navbar";
-import { Home, History, Attendance, Profile, Register, Login } from "./pages";
+import {
+  Home,
+  History,
+  Attendance,
+  Profile,
+  Register,
+  Login,
+  Forgot,
+  ChangePassword,
+} from "./pages";
 
 function App() {
   return (
@@ -9,11 +20,21 @@ function App() {
         <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/auth/register" element={<Register />} />
-          <Route path="/auth/login" element={<Login />} />
-          <Route path="/history" element={<History />} />
-          <Route path="/attendance" element={<Attendance />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="auth">
+            <Route path="register" element={<Register />} />
+            <Route path="login" element={<Login />} />
+            <Route path="forgot">
+              <Route index element={<Forgot />} />
+              <Route
+                path="change-password/:token"
+                element={<ChangePassword />}
+              />
+            </Route>
+          </Route>
+
+          <Route path="history" element={<History />} />
+          <Route path="attendance" element={<Attendance />} />
+          <Route path="profile" element={<Profile />} />
         </Routes>
       </Router>
     </main>

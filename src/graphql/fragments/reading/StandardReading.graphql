@@ -1,0 +1,10 @@
+fragment StandardReading on Reading {
+  id
+  title
+  author
+  type
+  avgRating
+  currentlyReading
+  createdAt
+  updatedAt
+}

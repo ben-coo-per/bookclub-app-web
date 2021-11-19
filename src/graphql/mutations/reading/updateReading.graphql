@@ -1,0 +1,19 @@
+enum ReadingType {
+  play
+  novel
+  nonFiction
+}
+
+mutation UpdateReading(
+  $title: String
+  $author: String
+  $type: ReadingType
+  $id: Int!
+) {
+  updateReading(
+    data: { title: $title, author: $author, type: $type }
+    id: $id
+  ) {
+    ...StandardReading
+  }
+}

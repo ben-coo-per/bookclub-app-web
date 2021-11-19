@@ -39,7 +39,7 @@ export const TextInput = ({
       </label>
       <input
         name={name}
-        className="bg-background p-2.5 text-darkBlue border-2 border-darkBlue rounded-md font-serif"
+        className="bg-background p-2.5 text-darkBlue border-2 border-darkBlue rounded-md font-serif text-md"
         placeholder={placeholder ? placeholder : ""}
         type={type}
         value={value}
