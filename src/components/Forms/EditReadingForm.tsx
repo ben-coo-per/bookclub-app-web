@@ -7,8 +7,8 @@ import { ReadingType, useUpdateReadingMutation } from "src/generated/graphql";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectedCurrentReadings,
-  updateReading,
-} from "src/features/readings/readingSlice";
+  updateCurrentReading,
+} from "src/features/readings/currentReadingSlice";
 
 let ReadingTypeOptions = ["novel", "play", "nonFiction"];
 
@@ -27,6 +27,8 @@ const EditReadingForm = ({ cancelAction }: AddNewReadingFormProps) => {
   const dispatch = useDispatch();
   const readingToEdit = useSelector(selectedCurrentReadings)[0];
 
+  console.log(readingToEdit);
+
   return (
     <div className="flex flex-col gap-3">
       <Dialog.Title as="h2" className="text-darkBlue text-4xl font-bold">
@@ -34,9 +36,9 @@ const EditReadingForm = ({ cancelAction }: AddNewReadingFormProps) => {
       </Dialog.Title>
       <Formik
         initialValues={{
-          title: readingToEdit.title,
-          author: readingToEdit.author,
-          type: readingToEdit.type == null ? undefined : readingToEdit.type,
+          title: readingToEdit?.title || "",
+          author: readingToEdit?.author || "",
+          type: readingToEdit?.type == null ? undefined : readingToEdit.type,
         }}
         validate={(values: AddNewReadingFormFields) => {
           const errors: Partial<AddNewReadingFormFields> = {};
@@ -50,15 +52,20 @@ const EditReadingForm = ({ cancelAction }: AddNewReadingFormProps) => {
           return errors;
         }}
         onSubmit={async (values) => {
+          let argsToPass = {};
+
+          if (values.title) argsToPass = { ...argsToPass, title: values.title };
+          if (values.author)
+            argsToPass = { ...argsToPass, author: values.author };
+          if (values.type) argsToPass = { ...argsToPass, type: values.type };
+
           const response = await updateReadingMutation({
             id: readingToEdit.id,
-            title: values.title,
-            author: values.author,
-            type: values.type,
+            ...argsToPass,
           });
 
           if (response.data?.updateReading) {
-            dispatch(updateReading(response.data.updateReading));
+            dispatch(updateCurrentReading(response.data.updateReading));
           }
           if (response.error) {
             console.log("error: ", response.error);

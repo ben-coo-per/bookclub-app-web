@@ -1,0 +1,6 @@
+fragment StandardRating on Rating {
+  rating
+  id
+  userId
+  readingId
+}

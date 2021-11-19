@@ -23,7 +23,7 @@ export type FieldError = {
 export type Mutation = {
   __typename?: 'Mutation';
   /** Create a new rating */
-  addRating: Rating;
+  addRating: RatingResponse;
   changePassword: UserResponse;
   /** Create a new Reading */
   createReading: Reading;
@@ -34,7 +34,7 @@ export type Mutation = {
   logout: Scalars['Boolean'];
   register?: Maybe<UserResponse>;
   /** Update an existing rating */
-  updateRating: Rating;
+  updateRating?: Maybe<RatingResponse>;
   /** Update an existing Reading */
   updateReading?: Maybe<Reading>;
 };
@@ -89,17 +89,23 @@ export type MutationUpdateReadingArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  /** Get all Readings */
-  allReadings: Array<Reading>;
-  /** Get all Readings */
+  /** Get all Current Readings */
   currentlyReading: Array<Reading>;
   me?: Maybe<User>;
+  /** Get all Readings */
+  previousReadings: Array<Reading>;
   /** Get Ratings on a Reading based on given ID */
   rating: Array<Rating>;
   /** Get Reading based on given ID */
   reading?: Maybe<Reading>;
   /** Get Ratings on a Reading based on given ID and userID */
   userRating: Rating;
+};
+
+
+export type QueryPreviousReadingsArgs = {
+  cursor?: Maybe<Scalars['String']>;
+  limit: Scalars['Int'];
 };
 
 
@@ -129,8 +135,14 @@ export type Rating = {
 };
 
 export type RatingInput = {
-  rating: Scalars['Float'];
-  readingId: Scalars['Float'];
+  rating: Scalars['Int'];
+  readingId: Scalars['Int'];
+};
+
+export type RatingResponse = {
+  __typename?: 'RatingResponse';
+  avgRating?: Maybe<Scalars['Float']>;
+  rating?: Maybe<Rating>;
 };
 
 /** A Reading the club has completed. Could be a book, article, play, etc. */
@@ -167,6 +179,7 @@ export type SignUpInputFields = {
 
 export type UpdateReadingInput = {
   author?: Maybe<Scalars['String']>;
+  currentlyReading?: Maybe<Scalars['Boolean']>;
   title?: Maybe<Scalars['String']>;
   type?: Maybe<ReadingType>;
 };
@@ -191,6 +204,8 @@ export type UserResponse = {
   user?: Maybe<User>;
 };
 
+export type StandardRatingFragment = { __typename?: 'Rating', rating: number, id: number, userId: number, readingId: number };
+
 export type StandardReadingFragment = { __typename?: 'Reading', id: number, title: string, author: string, type?: ReadingType | null | undefined, avgRating?: number | null | undefined, currentlyReading: boolean, createdAt: string, updatedAt: string };
 
 export type StandardErrorFragment = { __typename?: 'FieldError', field: string, message: string };
@@ -200,12 +215,12 @@ export type StandardUserFragment = { __typename?: 'User', id: number, name: stri
 export type StandardUserResponseFragment = { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined, user?: { __typename?: 'User', id: number, name: string } | null | undefined };
 
 export type AddRatingMutationVariables = Exact<{
-  rating: Scalars['Float'];
-  readingId: Scalars['Float'];
+  readingId: Scalars['Int'];
+  rating: Scalars['Int'];
 }>;
 
 
-export type AddRatingMutation = { __typename?: 'Mutation', addRating: { __typename?: 'Rating', id: number, readingId: number, rating: number } };
+export type AddRatingMutation = { __typename?: 'Mutation', addRating: { __typename?: 'RatingResponse', avgRating?: number | null | undefined, rating?: { __typename?: 'Rating', rating: number, id: number, userId: number, readingId: number } | null | undefined } };
 
 export type UpdateRatingMutationVariables = Exact<{
   id: Scalars['Int'];
@@ -213,7 +228,7 @@ export type UpdateRatingMutationVariables = Exact<{
 }>;
 
 
-export type UpdateRatingMutation = { __typename?: 'Mutation', updateRating: { __typename?: 'Rating', id: number, rating: number, readingId: number } };
+export type UpdateRatingMutation = { __typename?: 'Mutation', updateRating?: { __typename?: 'RatingResponse', avgRating?: number | null | undefined, rating?: { __typename?: 'Rating', rating: number, id: number, userId: number, readingId: number } | null | undefined } | null | undefined };
 
 export type CreateReadingMutationVariables = Exact<{
   title: Scalars['String'];
@@ -236,6 +251,7 @@ export type UpdateReadingMutationVariables = Exact<{
   author?: Maybe<Scalars['String']>;
   type?: Maybe<ReadingType>;
   id: Scalars['Int'];
+  currentlyReading?: Maybe<Scalars['Boolean']>;
 }>;
 
 
@@ -288,12 +304,15 @@ export type GetUserRatingQueryVariables = Exact<{
 }>;
 
 
-export type GetUserRatingQuery = { __typename?: 'Query', userRating: { __typename?: 'Rating', id: number, userId: number, readingId: number, rating: number } };
+export type GetUserRatingQuery = { __typename?: 'Query', userRating: { __typename?: 'Rating', rating: number, id: number, userId: number, readingId: number } };
 
-export type AllReadingsQueryVariables = Exact<{ [key: string]: never; }>;
+export type PreviousReadingsQueryVariables = Exact<{
+  limit: Scalars['Int'];
+  cursor?: Maybe<Scalars['String']>;
+}>;
 
 
-export type AllReadingsQuery = { __typename?: 'Query', allReadings: Array<{ __typename?: 'Reading', id: number, title: string, author: string, type?: ReadingType | null | undefined, avgRating?: number | null | undefined, currentlyReading: boolean, createdAt: string, updatedAt: string }> };
+export type PreviousReadingsQuery = { __typename?: 'Query', previousReadings: Array<{ __typename?: 'Reading', id: number, title: string, author: string, type?: ReadingType | null | undefined, avgRating?: number | null | undefined, currentlyReading: boolean, createdAt: string, updatedAt: string }> };
 
 export type CurrentlyReadingQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -307,6 +326,14 @@ export type ReadingQueryVariables = Exact<{
 
 export type ReadingQuery = { __typename?: 'Query', reading?: { __typename?: 'Reading', id: number, title: string, author: string, type?: ReadingType | null | undefined, avgRating?: number | null | undefined, currentlyReading: boolean, createdAt: string, updatedAt: string } | null | undefined };
 
+export const StandardRatingFragmentDoc = gql`
+    fragment StandardRating on Rating {
+  rating
+  id
+  userId
+  readingId
+}
+    `;
 export const StandardReadingFragmentDoc = gql`
     fragment StandardReading on Reading {
   id
@@ -343,14 +370,15 @@ export const StandardUserResponseFragmentDoc = gql`
     ${StandardErrorFragmentDoc}
 ${StandardUserFragmentDoc}`;
 export const AddRatingDocument = gql`
-    mutation AddRating($rating: Float!, $readingId: Float!) {
+    mutation AddRating($readingId: Int!, $rating: Int!) {
   addRating(input: {rating: $rating, readingId: $readingId}) {
-    id
-    readingId
-    rating
+    rating {
+      ...StandardRating
+    }
+    avgRating
   }
 }
-    `;
+    ${StandardRatingFragmentDoc}`;
 
 export function useAddRatingMutation() {
   return Urql.useMutation<AddRatingMutation, AddRatingMutationVariables>(AddRatingDocument);
@@ -358,12 +386,13 @@ export function useAddRatingMutation() {
 export const UpdateRatingDocument = gql`
     mutation UpdateRating($id: Int!, $newRating: Int!) {
   updateRating(id: $id, newRating: $newRating) {
-    id
-    rating
-    readingId
+    rating {
+      ...StandardRating
+    }
+    avgRating
   }
 }
-    `;
+    ${StandardRatingFragmentDoc}`;
 
 export function useUpdateRatingMutation() {
   return Urql.useMutation<UpdateRatingMutation, UpdateRatingMutationVariables>(UpdateRatingDocument);
@@ -389,8 +418,11 @@ export function useDeleteReadingMutation() {
   return Urql.useMutation<DeleteReadingMutation, DeleteReadingMutationVariables>(DeleteReadingDocument);
 };
 export const UpdateReadingDocument = gql`
-    mutation UpdateReading($title: String, $author: String, $type: ReadingType, $id: Int!) {
-  updateReading(data: {title: $title, author: $author, type: $type}, id: $id) {
+    mutation UpdateReading($title: String, $author: String, $type: ReadingType, $id: Int!, $currentlyReading: Boolean) {
+  updateReading(
+    id: $id
+    data: {author: $author, title: $title, type: $type, currentlyReading: $currentlyReading}
+  ) {
     ...StandardReading
   }
 }
@@ -464,27 +496,24 @@ export function useMeQuery(options: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'q
 export const GetUserRatingDocument = gql`
     query getUserRating($readingId: Int!) {
   userRating(readingId: $readingId) {
-    id
-    userId
-    readingId
-    rating
+    ...StandardRating
   }
 }
-    `;
+    ${StandardRatingFragmentDoc}`;
 
 export function useGetUserRatingQuery(options: Omit<Urql.UseQueryArgs<GetUserRatingQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<GetUserRatingQuery>({ query: GetUserRatingDocument, ...options });
 };
-export const AllReadingsDocument = gql`
-    query AllReadings {
-  allReadings {
+export const PreviousReadingsDocument = gql`
+    query PreviousReadings($limit: Int!, $cursor: String) {
+  previousReadings(limit: $limit, cursor: $cursor) {
     ...StandardReading
   }
 }
     ${StandardReadingFragmentDoc}`;
 
-export function useAllReadingsQuery(options: Omit<Urql.UseQueryArgs<AllReadingsQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<AllReadingsQuery>({ query: AllReadingsDocument, ...options });
+export function usePreviousReadingsQuery(options: Omit<Urql.UseQueryArgs<PreviousReadingsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<PreviousReadingsQuery>({ query: PreviousReadingsDocument, ...options });
 };
 export const CurrentlyReadingDocument = gql`
     query CurrentlyReading {

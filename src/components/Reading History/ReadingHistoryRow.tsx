@@ -4,11 +4,13 @@ import { TextDataDisplay } from "../textDataDisplay";
 import { capitalizeFirstLetter } from "../../utils/textUtils";
 import { StarIcon } from "src/icons/StarIcon";
 import { StarRatingInput } from "../Inputs/Rating";
+import { useGetUserRatingQuery } from "src/generated/graphql";
+import { useDispatch } from "react-redux";
 import {
-  GetUserRatingDocument,
-  useGetUserRatingQuery,
-  useReadingQuery,
-} from "src/generated/graphql";
+  addUserVote,
+  UserVote,
+} from "src/features/readings/previousReadingSlice";
+import { userInfo } from "os";
 
 interface ReadingHistoryRowProps {
   id: number;
@@ -17,6 +19,7 @@ interface ReadingHistoryRowProps {
 
   type?: string | null;
   avgRating?: number | null;
+  userVote?: UserVote;
 }
 
 type ExistingVote = {
@@ -30,19 +33,42 @@ export const ReadingHistoryRow = ({
   author,
   type = "",
   avgRating,
+  userVote,
 }: ReadingHistoryRowProps) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const dispatch = useDispatch();
   const [{ data, fetching }] = useGetUserRatingQuery({
     variables: { readingId: id },
   });
-  const [existingVote, setExistingVote] = useState<ExistingVote | undefined>();
+
+  function setUserVote(
+    ratingId: number,
+    rating: number,
+    avgRating?: number | null
+  ) {
+    dispatch(
+      addUserVote({
+        userVote: {
+          id: ratingId,
+          rating: rating,
+        },
+        id: id,
+        avgRating: avgRating,
+      })
+    );
+  }
 
   useEffect(() => {
     if (data?.userRating) {
-      setExistingVote({
-        id: data?.userRating.id,
-        rating: data?.userRating.rating,
-      });
+      dispatch(
+        addUserVote({
+          userVote: {
+            id: data?.userRating.id,
+            rating: data?.userRating.rating,
+          },
+          id: id,
+        })
+      );
     }
   }, [data]);
 
@@ -85,8 +111,8 @@ export const ReadingHistoryRow = ({
         >
           <StarRatingInput
             readingId={id}
-            existingVote={existingVote}
-            setExistingVote={setExistingVote}
+            userVote={userVote}
+            setUserVote={setUserVote}
             fetching={fetching}
           />
         </TextDataDisplay>

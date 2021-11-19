@@ -7,7 +7,7 @@ import {
   inEditMode,
   selectedCurrentReadings,
   toggleSelectedReading,
-} from "src/features/readings/readingSlice";
+} from "src/features/readings/currentReadingSlice";
 
 interface CurrentReadingRowProps {
   author: string;

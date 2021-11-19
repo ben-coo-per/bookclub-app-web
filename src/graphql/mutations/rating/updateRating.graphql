@@ -1,7 +1,8 @@
 mutation UpdateRating($id: Int!, $newRating: Int!) {
   updateRating(id: $id, newRating: $newRating) {
-    id
-    rating
-    readingId
+    rating {
+      ...StandardRating
+    }
+    avgRating
   }
 }

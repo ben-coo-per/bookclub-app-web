@@ -1,7 +1,8 @@
-mutation AddRating($rating: Float!, $readingId: Float!) {
+mutation AddRating($readingId: Int!, $rating: Int!) {
   addRating(input: { rating: $rating, readingId: $readingId }) {
-    id
-    readingId
-    rating
+    rating {
+      ...StandardRating
+    }
+    avgRating
   }
 }

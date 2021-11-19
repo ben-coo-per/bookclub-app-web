@@ -1,38 +1,28 @@
 import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Reading } from "src/generated/graphql";
 import { RootState } from "src/store";
+import { updatePreviousReading } from "./previousReadingSlice";
 
-export interface readingsState {
+export interface currentReadingsState {
   inEditMode: boolean;
-  allReadings: Reading[];
-
   currentReadings: Reading[];
   selectedCurrentReadings: Reading[];
-
-  historicalReadings: Reading[];
 }
 
-const initialState: readingsState = {
+const initialState: currentReadingsState = {
   inEditMode: false,
-  allReadings: [],
   currentReadings: [],
   selectedCurrentReadings: [],
-  historicalReadings: [],
 };
 
-export const readingSlice = createSlice({
-  name: "readings",
+export const currentReadingSlice = createSlice({
+  name: "currentReadings",
   initialState,
   reducers: {
     hydrateReadings: (state, action: PayloadAction<Reading[]>) => {
       state.currentReadings = action.payload.filter(
         (reading) => reading.currentlyReading
       );
-
-      state.historicalReadings = action.payload.filter(
-        (reading) => !reading.currentlyReading
-      );
-      state.allReadings = action.payload;
     },
 
     addReading: (state, action: PayloadAction<Reading>) => {
@@ -46,7 +36,7 @@ export const readingSlice = createSlice({
       state.selectedCurrentReadings = [];
     },
 
-    updateReading: (state, action: PayloadAction<Reading>) => {
+    updateCurrentReading: (state, action: PayloadAction<Reading>) => {
       state.currentReadings = state.currentReadings.map((reading) => {
         if (reading.id === action.payload.id) {
           return action.payload;
@@ -58,6 +48,11 @@ export const readingSlice = createSlice({
         state.currentReadings = state.currentReadings.filter(
           (reading) => reading.id !== action.payload.id
         );
+        // state.historicalReadings = [
+        //   ...state.historicalReadings,
+        //   action.payload,
+        // ];
+        // TODO: HANDLE ADDING READING INTO PREVIOUS READINGS
       }
       state.selectedCurrentReadings = [];
     },
@@ -91,37 +86,35 @@ export const readingSlice = createSlice({
       state.inEditMode = !state.inEditMode;
     },
   },
-  extraReducers: (builder) => {},
+  extraReducers: (builder) => {
+    // builder.addCase(updatePreviousReading, (state, action) => {
+    //   if (action.payload.currentlyReading) {
+    //     state.currentReadings = [...state.currentReadings, action.payload];
+    //   }
+    // });
+  },
 });
 
 // Action creators are generated for each case reducer function
 export const {
   hydrateReadings,
-  updateReading,
+  updateCurrentReading,
   addReading,
   removeReading,
   toggleEditMode,
   toggleSelectedReading,
-} = readingSlice.actions;
+} = currentReadingSlice.actions;
 
-export default readingSlice.reducer;
+export default currentReadingSlice.reducer;
 
 export function selectedCurrentReadings(state: RootState) {
-  return state.readings.selectedCurrentReadings;
+  return state.currentReadings.selectedCurrentReadings;
 }
 
 export function inEditMode(state: RootState) {
-  return state.readings.inEditMode;
+  return state.currentReadings.inEditMode;
 }
 
 export function allCurrentReadings(state: RootState) {
-  return state.readings.currentReadings;
+  return state.currentReadings.currentReadings;
 }
-
-export function allReadings(state: RootState) {
-  return state.readings.allReadings;
-}
-
-// const allReadingsA = createSelector(updateReading,
-//   state => state.readings.allReadings,
-// )

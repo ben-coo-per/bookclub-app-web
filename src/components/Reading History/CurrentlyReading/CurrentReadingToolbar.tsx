@@ -12,14 +12,14 @@ import {
   inEditMode,
   selectedCurrentReadings,
   toggleEditMode,
-  updateReading,
-} from "src/features/readings/readingSlice";
+  updateCurrentReading,
+} from "src/features/readings/currentReadingSlice";
 import {
   AddNewReadingDialog,
   EditReadingDialog,
   DeleteReadingDialog,
 } from "src/components/Dialogs";
-import { Reading } from "src/generated/graphql";
+import { Reading, useUpdateReadingMutation } from "src/generated/graphql";
 
 interface GetSelectStateResponse {
   multipleSelected: boolean;
@@ -36,6 +36,7 @@ export function getMultiSelectState(
 }
 
 const CurrentReadingToolbar = () => {
+  const [, updateReadingMutation] = useUpdateReadingMutation();
   const [deleteDialogOpen, setDeleteDialogModalOpen] = useState<boolean>(false);
   const [addReadingDialogOpen, setAddReadingDialogOpen] = useState(false);
   const [editReadingDialogOpen, setEditReadingDialogOpen] = useState(false);
@@ -48,11 +49,18 @@ const CurrentReadingToolbar = () => {
     getMultiSelectState(selectedReadings);
 
   function handleMarkReadingsAsDone() {
-    selectedReadings.forEach((reading) =>
-      dispatch(updateReading({ ...reading, currentlyReading: false }))
-    );
+    selectedReadings.forEach(async (reading) => {
+      let res = await updateReadingMutation({
+        id: reading.id,
+        currentlyReading: false,
+      });
+      if (res.data) {
+        dispatch(updateCurrentReading({ ...reading, currentlyReading: false }));
+      } else {
+        console.log("something went wrong");
+      }
+    });
   }
-
   return (
     <div className="flex flex-row gap-2 ">
       <div className="flex flex-row gap-2 bg-accent p-0 rounded-lg">

@@ -1,5 +1,5 @@
-query AllReadings {
-  allReadings {
+query PreviousReadings($limit: Int!, $cursor: String) {
+  previousReadings(limit: $limit, cursor: $cursor) {
     ...StandardReading
   }
 }

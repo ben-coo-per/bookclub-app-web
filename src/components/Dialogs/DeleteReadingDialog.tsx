@@ -5,7 +5,7 @@ import { Button } from "src/components/Inputs";
 import {
   removeReading,
   selectedCurrentReadings,
-} from "src/features/readings/readingSlice";
+} from "src/features/readings/currentReadingSlice";
 import { Reading, useDeleteReadingMutation } from "src/generated/graphql";
 import { DialogProps } from ".";
 import { getMultiSelectState } from "../Reading History/CurrentlyReading/CurrentReadingToolbar";
@@ -75,7 +75,7 @@ export const DeleteReadingDialog = ({ isOpen, closeModal }: DialogProps) => {
                   <div className="text-lg">{`The deleted ${
                     multipleSelected ? "readings" : "reading"
                   } will be deleted for ever.`}</div>
-                  <div className="flex flex-row-reverse gap-2 justify-end mt-4">
+                  <div className="flex flex-row-reverse gap-2 justify-start mt-4">
                     <Button onClick={handleDelete}>{`Yes, Delete ${
                       multipleSelected ? "These Readings" : "This Reading"
                     }`}</Button>

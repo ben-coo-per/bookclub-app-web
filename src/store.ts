@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import readingReducer from "src/features/readings/readingSlice";
+import currentReadingReducer from "src/features/readings/currentReadingSlice";
+import previousReadingReducer from "src/features/readings/previousReadingSlice";
 
 export const store = configureStore({
   reducer: {
-    readings: readingReducer,
+    currentReadings: currentReadingReducer,
+    previousReadings: previousReadingReducer,
   },
 });
 

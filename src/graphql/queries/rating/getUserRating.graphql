@@ -1,8 +1,5 @@
 query getUserRating($readingId: Int!) {
   userRating(readingId: $readingId) {
-    id
-    userId
-    readingId
-    rating
+    ...StandardRating
   }
 }

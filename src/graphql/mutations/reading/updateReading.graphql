@@ -9,10 +9,16 @@ mutation UpdateReading(
   $author: String
   $type: ReadingType
   $id: Int!
+  $currentlyReading: Boolean
 ) {
   updateReading(
-    data: { title: $title, author: $author, type: $type }
     id: $id
+    data: {
+      author: $author
+      title: $title
+      type: $type
+      currentlyReading: $currentlyReading
+    }
   ) {
     ...StandardReading
   }

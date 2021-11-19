@@ -7,22 +7,18 @@ import { StarIcon } from "src/icons/StarIcon";
 
 export const StarRatingInput = ({
   readingId,
-  existingVote,
-  setExistingVote,
+  userVote,
+  setUserVote,
   fetching = false,
 }: {
   readingId: number;
-  existingVote?: { rating: number; id: number };
   fetching?: boolean;
-  setExistingVote: React.Dispatch<
-    React.SetStateAction<
-      | {
-          id: number;
-          rating: number;
-        }
-      | undefined
-    >
-  >;
+  userVote?: { rating: number; id: number };
+  setUserVote: (
+    rating: number,
+    ratingId: number,
+    avgRating?: number | null
+  ) => void;
 }) => {
   const [hoverState, setHoverState] = useState<number>(0);
   const stars = [1, 2, 3, 4, 5];
@@ -33,30 +29,33 @@ export const StarRatingInput = ({
   async function handleRating(rating: number) {
     setIsLoading(true);
 
-    if (existingVote && rating != existingVote.rating) {
+    if (userVote && rating != userVote.rating) {
       // If there is already an existing vote, update rating
       const { data } = await updateRating({
         newRating: rating,
-        id: existingVote.id,
+        id: userVote.id,
       });
-      if (data?.updateRating) {
-        setExistingVote({
-          rating: data.updateRating.rating,
-          id: data.updateRating.id,
-        });
+      if (data?.updateRating?.rating) {
+        setUserVote(
+          data.updateRating.rating.id,
+          data.updateRating.rating.rating,
+          data.updateRating.avgRating
+        );
       }
-    } else if (!existingVote) {
+    } else if (!userVote) {
       // If not, add a new rating
       const { data } = await addRating({
         rating: rating,
         readingId: readingId,
       });
 
-      if (data?.addRating) {
-        setExistingVote({
-          rating: data.addRating.rating,
-          id: data.addRating.id,
-        });
+      if (data?.addRating.rating) {
+        console.log(data.addRating.rating);
+        setUserVote(
+          data.addRating.rating.id,
+          data.addRating.rating.rating,
+          data.addRating.avgRating
+        );
       }
     }
     setIsLoading(false);
@@ -68,7 +67,7 @@ export const StarRatingInput = ({
         <StarRating
           key={val}
           place={val}
-          existingVote={existingVote?.rating}
+          userVote={userVote?.rating}
           hoverState={hoverState}
           setHoverState={setHoverState}
           handleRating={handleRating}
@@ -81,7 +80,7 @@ export const StarRatingInput = ({
 
 interface StarRatingProps {
   place: number;
-  existingVote?: number;
+  userVote?: number;
   hoverState: number;
   setHoverState: React.Dispatch<React.SetStateAction<number>>;
   handleRating: (rating: number) => void;
@@ -92,7 +91,7 @@ const StarRating = ({
   place,
   hoverState,
   setHoverState,
-  existingVote,
+  userVote,
   handleRating,
   loading = false,
 }: StarRatingProps) => {
@@ -128,7 +127,7 @@ const StarRating = ({
       <StarIcon
         size={size}
         className={loading ? "cursor-not-allowed" : "cursor-pointer"}
-        variant={existingVote && existingVote >= place ? "full" : "empty"}
+        variant={userVote && userVote >= place ? "full" : "empty"}
       />
     </div>
   );

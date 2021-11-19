@@ -5,7 +5,7 @@ import { Dialog } from "@headlessui/react";
 import { camelCaseToCapitalizedWords } from "src/utils/textUtils";
 import { ReadingType, useCreateReadingMutation } from "src/generated/graphql";
 import { useDispatch } from "react-redux";
-import { addReading } from "src/features/readings/readingSlice";
+import { addReading } from "src/features/readings/currentReadingSlice";
 
 let ReadingTypeOptions = ["novel", "play", "nonFiction"];
 

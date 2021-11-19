@@ -3,7 +3,7 @@ import { Skeleton } from "src/components/Skeleton";
 import { CurrentlyReadingQuery } from "src/generated/graphql";
 import { CurrentReadingToolbar } from "./CurrentReadingToolbar";
 import { useSelector } from "react-redux";
-import { allCurrentReadings } from "src/features/readings/readingSlice";
+import { allCurrentReadings } from "src/features/readings/currentReadingSlice";
 
 interface CurrentReadingListProps {
   data?: CurrentlyReadingQuery;
