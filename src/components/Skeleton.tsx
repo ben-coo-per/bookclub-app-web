@@ -3,7 +3,7 @@ interface SkeletonProps {
   isLoaded?: boolean;
   isError?: boolean;
   className?: string;
-  variant?: "default" | "list";
+  variant?: "default" | "list" | "circle";
 }
 
 interface SkeletonTextProps extends SkeletonProps {
@@ -17,6 +17,7 @@ export const SkeletonText = ({
   isError = false,
   fontStyles,
   errorFontStyles,
+  className,
 }: SkeletonTextProps) => {
   if (isError) {
     return <p className={errorFontStyles}>Error loading content</p>;
@@ -25,7 +26,11 @@ export const SkeletonText = ({
     return <p className={fontStyles}>{children}</p>;
   }
 
-  return <div className="h-4 w-full rounded-full bg-champagne animate-pulse" />;
+  return (
+    <div
+      className={`h-4 w-full rounded-full bg-champagne animate-pulse ${className}`}
+    />
+  );
 };
 
 export const Skeleton = ({
@@ -52,6 +57,12 @@ export const Skeleton = ({
           className={`rounded-xl w-full bg-champagne animate-pulse ${className}`}
         />
       </div>
+    );
+  }
+
+  if (variant === "circle") {
+    return (
+      <div className={`rounded-full bg-champagne animate-pulse ${className}`} />
     );
   }
 
