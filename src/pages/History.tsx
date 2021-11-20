@@ -9,10 +9,10 @@ export function History() {
           <div className="col-span-4 mx-auto w-full">
             <div className="grid grid-cols-5 gap-4">
               <CurrentReadingContainer />
-              <div className="flex flex-col col-span-5 md:col-span-2 bg-white p-5 rounded-xl shadow-lg">
+              {/* <div className="flex flex-col col-span-5 md:col-span-2 bg-white p-5 rounded-xl shadow-lg">
                 <h2 className="text-darkBlue text-3xl font-bold">Meetings</h2>
                 <p>TODO</p>
-              </div>
+              </div> */}
             </div>
           </div>
           <PreviousReadingContainer />

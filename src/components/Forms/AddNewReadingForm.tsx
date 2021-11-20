@@ -5,7 +5,8 @@ import { Dialog } from "@headlessui/react";
 import { camelCaseToCapitalizedWords } from "src/utils/textUtils";
 import { ReadingType, useCreateReadingMutation } from "src/generated/graphql";
 import { useDispatch } from "react-redux";
-import { addReading } from "src/features/readings/currentReadingSlice";
+import { addReading as addReadingToCurrentReadings } from "src/features/readings/currentReadingSlice";
+import { addReading as addREadingToPreviousReadings } from "src/features/readings/previousReadingSlice";
 
 let ReadingTypeOptions = ["novel", "play", "nonFiction"];
 
@@ -18,9 +19,13 @@ interface AddNewReadingFormFields {
 
 interface AddNewReadingFormProps {
   cancelAction?: () => void;
+  isCurrentReading: boolean;
 }
 
-const AddNewReadingForm = ({ cancelAction }: AddNewReadingFormProps) => {
+const AddNewReadingForm = ({
+  cancelAction,
+  isCurrentReading,
+}: AddNewReadingFormProps) => {
   const [, createReading] = useCreateReadingMutation();
   const dispatch = useDispatch();
 
@@ -52,10 +57,18 @@ const AddNewReadingForm = ({ cancelAction }: AddNewReadingFormProps) => {
             title: values.title,
             author: values.author,
             type: values.type,
+            currentlyReading: isCurrentReading,
           });
 
           if (response.data?.createReading) {
-            dispatch(addReading(response.data.createReading));
+            if (isCurrentReading)
+              dispatch(
+                addReadingToCurrentReadings(response.data.createReading)
+              );
+            if (!isCurrentReading)
+              dispatch(
+                addREadingToPreviousReadings(response.data.createReading)
+              );
           }
           if (response.error) {
             console.log("error: ", response.error);

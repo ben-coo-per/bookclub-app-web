@@ -33,7 +33,7 @@ export const previousReadingSlice = createSlice({
     },
 
     addReading: (state, action: PayloadAction<Reading>) => {
-      state.previousReadings = [...state.previousReadings, action.payload];
+      state.previousReadings = [action.payload, ...state.previousReadings];
     },
 
     removeReading: (state, action: PayloadAction<number[]>) => {
@@ -51,7 +51,7 @@ export const previousReadingSlice = createSlice({
         return reading;
       });
 
-      if (!action.payload.currentlyReading) {
+      if (action.payload.currentlyReading) {
         state.previousReadings = state.previousReadings.filter(
           (reading) => reading.id !== action.payload.id
         );
@@ -115,11 +115,11 @@ export const previousReadingSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(updateCurrentReading, (state, action) => {
-      if (!action.payload.currentlyReading) {
-        state.previousReadings = [action.payload, ...state.previousReadings];
-      }
-    });
+    // builder.addCase(updateCurrentReading, (state, action) => {
+    //   if (!action.payload.currentlyReading) {
+    //     state.previousReadings = [action.payload, ...state.previousReadings];
+    //   }
+    // });
   },
 });
 

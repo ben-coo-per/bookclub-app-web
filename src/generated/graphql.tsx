@@ -83,7 +83,7 @@ export type MutationUpdateRatingArgs = {
 
 
 export type MutationUpdateReadingArgs = {
-  data: UpdateReadingInput;
+  data: ReadingInput;
   id: Scalars['Int'];
 };
 
@@ -159,8 +159,9 @@ export type Reading = {
 };
 
 export type ReadingInput = {
-  author: Scalars['String'];
-  title: Scalars['String'];
+  author?: Maybe<Scalars['String']>;
+  currentlyReading?: Maybe<Scalars['Boolean']>;
+  title?: Maybe<Scalars['String']>;
   type?: Maybe<ReadingType>;
 };
 
@@ -175,13 +176,6 @@ export type SignUpInputFields = {
   email: Scalars['String'];
   name: Scalars['String'];
   password: Scalars['String'];
-};
-
-export type UpdateReadingInput = {
-  author?: Maybe<Scalars['String']>;
-  currentlyReading?: Maybe<Scalars['Boolean']>;
-  title?: Maybe<Scalars['String']>;
-  type?: Maybe<ReadingType>;
 };
 
 export type User = {
@@ -233,6 +227,7 @@ export type UpdateRatingMutation = { __typename?: 'Mutation', updateRating?: { _
 export type CreateReadingMutationVariables = Exact<{
   title: Scalars['String'];
   author: Scalars['String'];
+  currentlyReading?: Maybe<Scalars['Boolean']>;
   type?: Maybe<ReadingType>;
 }>;
 
@@ -398,8 +393,10 @@ export function useUpdateRatingMutation() {
   return Urql.useMutation<UpdateRatingMutation, UpdateRatingMutationVariables>(UpdateRatingDocument);
 };
 export const CreateReadingDocument = gql`
-    mutation CreateReading($title: String!, $author: String!, $type: ReadingType) {
-  createReading(data: {title: $title, author: $author, type: $type}) {
+    mutation CreateReading($title: String!, $author: String!, $currentlyReading: Boolean, $type: ReadingType) {
+  createReading(
+    data: {title: $title, author: $author, currentlyReading: $currentlyReading, type: $type}
+  ) {
     ...StandardReading
   }
 }

@@ -1,29 +1,41 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button } from "src/components/Inputs";
 import {
-  removeReading,
+  removeReading as removeCurrentReading,
   selectedCurrentReadings,
 } from "src/features/readings/currentReadingSlice";
+import {
+  removeReading as removePreviousReading,
+  selectedPreviousReading,
+} from "src/features/readings/previousReadingSlice";
 import { Reading, useDeleteReadingMutation } from "src/generated/graphql";
 import { DialogProps } from ".";
 import { getMultiSelectState } from "../Reading/CurrentReading/Toolbar";
 
-export const DeleteReadingDialog = ({ isOpen, closeModal }: DialogProps) => {
-  const selectedReadings = useSelector(selectedCurrentReadings);
+interface DeleteReadingDialogProps extends DialogProps {
+  readings: Reading[];
+}
+
+export const DeleteReadingDialog = ({
+  isOpen,
+  closeModal,
+  isCurrentReading,
+  readings,
+}: DeleteReadingDialogProps) => {
   const dispatch = useDispatch();
-  const { multipleSelected } = getMultiSelectState(selectedReadings);
+  const { multipleSelected } = getMultiSelectState(readings);
   const [, deleteReadings] = useDeleteReadingMutation();
 
   async function handleDelete() {
-    const readingIdArray = selectedReadings.map(
-      (reading: Reading) => reading.id
-    );
-
+    const readingIdArray = readings.map((reading: Reading) => reading.id);
     const res = await deleteReadings({ ids: readingIdArray });
+
     if (res.data?.deleteReading) {
-      dispatch(removeReading(readingIdArray));
+      if (isCurrentReading) dispatch(removeCurrentReading(readingIdArray));
+      if (!isCurrentReading) dispatch(removePreviousReading(readingIdArray));
+
       closeModal();
     }
   }

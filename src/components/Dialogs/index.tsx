@@ -5,4 +5,5 @@ export { DeleteReadingDialog } from "./DeleteReadingDialog";
 export interface DialogProps {
   isOpen: boolean;
   closeModal: () => void;
+  isCurrentReading: boolean;
 }

@@ -1,10 +1,13 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
-import AddNewReadingForm from "src/components/Forms/AddNewReadingForm";
 import { DialogProps } from ".";
 import EditReadingForm from "../Forms/EditReadingForm";
 
-export const EditReadingDialog = ({ isOpen, closeModal }: DialogProps) => {
+export const EditReadingDialog = ({
+  isOpen,
+  closeModal,
+  isCurrentReading,
+}: DialogProps) => {
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog
@@ -39,7 +42,10 @@ export const EditReadingDialog = ({ isOpen, closeModal }: DialogProps) => {
             leaveTo="opacity-0 scale-95"
           >
             <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-              <EditReadingForm cancelAction={closeModal} />
+              <EditReadingForm
+                cancelAction={closeModal}
+                isCurrentReading={isCurrentReading}
+              />
             </div>
           </Transition.Child>
         </div>

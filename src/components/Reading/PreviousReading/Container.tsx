@@ -6,12 +6,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { allPreviousReadings } from "src/features/readings/previousReadingSlice";
 import { hydrateReadings } from "src/features/readings/previousReadingSlice";
 import { usePreviousReadingsQuery } from "src/generated/graphql";
+import { PreviousReadingToolbar } from "./Toolbar";
 
 const sortByOptionsArray = ["Most Recent", "Oldest", "Rating"];
 // const forTypeConversion = sortByOptionsArray
 type sortByOptions = typeof sortByOptionsArray[number];
 
 export const PreviousReadingContainer = () => {
+  const [firstLoad, setFirstLoad] = useState<boolean>(true);
   const [{ data }] = usePreviousReadingsQuery({
     variables: {
       limit: 10,
@@ -20,30 +22,20 @@ export const PreviousReadingContainer = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (data?.previousReadings) {
+    if (data?.previousReadings && firstLoad) {
       dispatch(hydrateReadings(data.previousReadings));
+      setFirstLoad(false);
     }
   }, [data?.previousReadings]);
 
   const previousReadings = useSelector(allPreviousReadings);
 
-  const [sortBy, setSortBy] = useState<sortByOptions | undefined>(
-    "Most Recent"
-  );
-
   return (
     <div className="col-span-4  bg-white mx-auto p-5 rounded-xl shadow-lg gap-3 w-full">
       <div className="flex flex-col">
-        <div className="flex flex-row justify-between items-center px-1">
-          <h2 className="text-darkBlue text-3xl font-bold">History</h2>
-          {/* <Select
-            options={sortByOptionsArray}
-            selected={sortBy}
-            setSelected={setSortBy}
-            label="Sort By: "
-            labelInside
-            variant="light"
-          /> */}
+        <div className="flex flex-row justify-between items-center ">
+          <h2 className="text-darkBlue text-3xl font-bold truncate">History</h2>
+          <PreviousReadingToolbar />
         </div>
 
         <div className="flex flex-col gap-2 mt-4">
@@ -69,3 +61,16 @@ export const PreviousReadingContainer = () => {
     </div>
   );
 };
+
+// const [sortBy, setSortBy] = useState<sortByOptions | undefined>(
+//   "Most Recent"
+// );
+
+/* <Select
+            options={sortByOptionsArray}
+            selected={sortBy}
+            setSelected={setSortBy}
+            label="Sort By: "
+            labelInside
+            variant="light"
+          /> */

@@ -1,6 +1,6 @@
 import { Transition } from "@headlessui/react";
 import {
-  ArchiveIcon,
+  BookOpenIcon,
   CheckCircleIcon,
   PencilIcon,
   PlusIcon,
@@ -11,17 +11,17 @@ import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   inEditMode,
-  selectedCurrentReadings,
+  selectedPreviousReading,
   toggleEditMode,
-  updateCurrentReading,
-} from "src/features/readings/currentReadingSlice";
+  updatePreviousReading,
+} from "src/features/readings/previousReadingSlice";
 import {
   AddNewReadingDialog,
   EditReadingDialog,
   DeleteReadingDialog,
 } from "src/components/Dialogs";
 import { Reading, useUpdateReadingMutation } from "src/generated/graphql";
-import { addReading } from "src/features/readings/previousReadingSlice";
+import { addReading } from "src/features/readings/currentReadingSlice";
 
 interface GetSelectStateResponse {
   multipleSelected: boolean;
@@ -37,7 +37,7 @@ export function getMultiSelectState(
   return { multipleSelected, noneSelected };
 }
 
-const CurrentReadingToolbar = () => {
+const PreviousReadingToolbar = () => {
   const [, updateReadingMutation] = useUpdateReadingMutation();
   const [deleteDialogOpen, setDeleteDialogModalOpen] = useState<boolean>(false);
   const [addReadingDialogOpen, setAddReadingDialogOpen] = useState(false);
@@ -45,19 +45,20 @@ const CurrentReadingToolbar = () => {
 
   const dispatch = useDispatch();
   const inEditState = useSelector(inEditMode);
-  const selectedReadings = useSelector(selectedCurrentReadings);
+  const selectedReadings = useSelector(selectedPreviousReading);
 
   const { multipleSelected, noneSelected } =
     getMultiSelectState(selectedReadings);
 
-  function handleMarkReadingsAsDone() {
+  function handleMarkReadingAsCurrent() {
     selectedReadings.forEach(async (reading) => {
+      console.log(selectedReadings);
       let res = await updateReadingMutation({
         id: reading.id,
-        currentlyReading: false,
+        currentlyReading: true,
       });
       if (res.data) {
-        dispatch(updateCurrentReading({ ...reading, currentlyReading: false }));
+        dispatch(updatePreviousReading({ ...reading, currentlyReading: true }));
         dispatch(addReading(reading));
       } else {
         console.log("something went wrong");
@@ -92,11 +93,11 @@ const CurrentReadingToolbar = () => {
             } text-midnightBlue h-7 rounded-md p-0.5 px-1 hover:bg-champagne hover:bg-opacity-75 `}
             onClick={() => setDeleteDialogModalOpen(true)}
           />
-          <ArchiveIcon
+          <BookOpenIcon
             className={`cursor-pointer ${
               noneSelected && "opacity-50 cursor-not-allowed"
             } text-midnightBlue h-7 rounded-md p-0.5 px-1 hover:bg-champagne hover:bg-opacity-75 `}
-            onClick={handleMarkReadingsAsDone}
+            onClick={handleMarkReadingAsCurrent}
           />
         </Transition>
 
@@ -122,21 +123,21 @@ const CurrentReadingToolbar = () => {
       <AddNewReadingDialog
         isOpen={addReadingDialogOpen}
         closeModal={() => setAddReadingDialogOpen(false)}
-        isCurrentReading={true}
+        isCurrentReading={false}
       />
       <DeleteReadingDialog
         isOpen={deleteDialogOpen}
         closeModal={() => setDeleteDialogModalOpen(false)}
-        isCurrentReading={true}
+        isCurrentReading={false}
         readings={selectedReadings}
       />
       <EditReadingDialog
         isOpen={editReadingDialogOpen}
         closeModal={() => setEditReadingDialogOpen(false)}
-        isCurrentReading={true}
+        isCurrentReading={false}
       />
     </div>
   );
 };
 
-export { CurrentReadingToolbar };
+export { PreviousReadingToolbar };

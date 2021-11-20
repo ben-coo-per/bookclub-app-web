@@ -4,8 +4,20 @@ enum ReadingType {
   nonFiction
 }
 
-mutation CreateReading($title: String!, $author: String!, $type: ReadingType) {
-  createReading(data: { title: $title, author: $author, type: $type }) {
+mutation CreateReading(
+  $title: String!
+  $author: String!
+  $currentlyReading: Boolean
+  $type: ReadingType
+) {
+  createReading(
+    data: {
+      title: $title
+      author: $author
+      currentlyReading: $currentlyReading
+      type: $type
+    }
+  ) {
     ...StandardReading
   }
 }
