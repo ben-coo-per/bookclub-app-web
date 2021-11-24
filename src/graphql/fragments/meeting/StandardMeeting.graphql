@@ -1,0 +1,7 @@
+fragment StandardMeeting on Meeting {
+  id
+  meetingDate
+  readingAssignment
+  createdAt
+  updatedAt
+}

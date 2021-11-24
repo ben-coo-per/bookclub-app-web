@@ -20,11 +20,30 @@ export type FieldError = {
   message: Scalars['String'];
 };
 
+/** A Meeting  */
+export type Meeting = {
+  __typename?: 'Meeting';
+  createdAt: Scalars['String'];
+  id: Scalars['Int'];
+  meetingDate: Scalars['String'];
+  meetingLink?: Maybe<Scalars['String']>;
+  readingAssignment?: Maybe<Scalars['String']>;
+  updatedAt: Scalars['String'];
+};
+
+export type MeetingInput = {
+  meetingDate: Scalars['String'];
+  meetingLink?: Maybe<Scalars['String']>;
+  readingAssignment?: Maybe<Scalars['String']>;
+  readingIds?: Maybe<Array<Scalars['Int']>>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   /** Create a new rating */
   addRating: RatingResponse;
   changePassword: UserResponse;
+  createMeeting: Meeting;
   /** Create a new Reading */
   createReading: Reading;
   /** Delete an existing Reading */
@@ -48,6 +67,11 @@ export type MutationAddRatingArgs = {
 export type MutationChangePasswordArgs = {
   newPassword: Scalars['String'];
   token: Scalars['String'];
+};
+
+
+export type MutationCreateMeetingArgs = {
+  data: MeetingInput;
 };
 
 
@@ -89,6 +113,8 @@ export type MutationUpdateReadingArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  allMeetings: Array<Meeting>;
+  currentReadingMeetings: Array<Meeting>;
   /** Get all Current Readings */
   currentlyReading: Array<Reading>;
   me?: Maybe<User>;
@@ -145,12 +171,13 @@ export type RatingResponse = {
   rating?: Maybe<Rating>;
 };
 
-/** A Reading the club has completed. Could be a book, article, play, etc. */
+/** A Reading that the group either completed or are currently reading. Could be a book, article, play, etc. */
 export type Reading = {
   __typename?: 'Reading';
   author: Scalars['String'];
   avgRating?: Maybe<Scalars['Float']>;
   createdAt: Scalars['String'];
+  createdBy?: Maybe<Scalars['Int']>;
   currentlyReading: Scalars['Boolean'];
   id: Scalars['Int'];
   title: Scalars['String'];
@@ -198,6 +225,8 @@ export type UserResponse = {
   user?: Maybe<User>;
 };
 
+export type StandardMeetingFragment = { __typename?: 'Meeting', id: number, meetingDate: string, readingAssignment?: string | null | undefined, createdAt: string, updatedAt: string };
+
 export type StandardRatingFragment = { __typename?: 'Rating', rating: number, id: number, userId: number, readingId: number };
 
 export type StandardReadingFragment = { __typename?: 'Reading', id: number, title: string, author: string, type?: ReadingType | null | undefined, avgRating?: number | null | undefined, currentlyReading: boolean, createdAt: string, updatedAt: string };
@@ -207,6 +236,16 @@ export type StandardErrorFragment = { __typename?: 'FieldError', field: string, 
 export type StandardUserFragment = { __typename?: 'User', id: number, name: string };
 
 export type StandardUserResponseFragment = { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined, user?: { __typename?: 'User', id: number, name: string } | null | undefined };
+
+export type CreateMeetingMutationVariables = Exact<{
+  readingIds?: Maybe<Array<Scalars['Int']> | Scalars['Int']>;
+  meetingDate: Scalars['String'];
+  readingAssignment?: Maybe<Scalars['String']>;
+  meetingLink?: Maybe<Scalars['String']>;
+}>;
+
+
+export type CreateMeetingMutation = { __typename?: 'Mutation', createMeeting: { __typename?: 'Meeting', id: number, meetingDate: string, readingAssignment?: string | null | undefined, createdAt: string, updatedAt: string } };
 
 export type AddRatingMutationVariables = Exact<{
   readingId: Scalars['Int'];
@@ -294,6 +333,11 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, name: string } | null | undefined };
 
+export type CurrentReadingMeetingsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CurrentReadingMeetingsQuery = { __typename?: 'Query', currentReadingMeetings: Array<{ __typename?: 'Meeting', id: number, meetingDate: string, readingAssignment?: string | null | undefined, createdAt: string, updatedAt: string }> };
+
 export type GetUserRatingQueryVariables = Exact<{
   readingId: Scalars['Int'];
 }>;
@@ -321,6 +365,15 @@ export type ReadingQueryVariables = Exact<{
 
 export type ReadingQuery = { __typename?: 'Query', reading?: { __typename?: 'Reading', id: number, title: string, author: string, type?: ReadingType | null | undefined, avgRating?: number | null | undefined, currentlyReading: boolean, createdAt: string, updatedAt: string } | null | undefined };
 
+export const StandardMeetingFragmentDoc = gql`
+    fragment StandardMeeting on Meeting {
+  id
+  meetingDate
+  readingAssignment
+  createdAt
+  updatedAt
+}
+    `;
 export const StandardRatingFragmentDoc = gql`
     fragment StandardRating on Rating {
   rating
@@ -364,6 +417,19 @@ export const StandardUserResponseFragmentDoc = gql`
 }
     ${StandardErrorFragmentDoc}
 ${StandardUserFragmentDoc}`;
+export const CreateMeetingDocument = gql`
+    mutation CreateMeeting($readingIds: [Int!], $meetingDate: String!, $readingAssignment: String, $meetingLink: String) {
+  createMeeting(
+    data: {readingIds: $readingIds, meetingDate: $meetingDate, readingAssignment: $readingAssignment, meetingLink: $meetingLink}
+  ) {
+    ...StandardMeeting
+  }
+}
+    ${StandardMeetingFragmentDoc}`;
+
+export function useCreateMeetingMutation() {
+  return Urql.useMutation<CreateMeetingMutation, CreateMeetingMutationVariables>(CreateMeetingDocument);
+};
 export const AddRatingDocument = gql`
     mutation AddRating($readingId: Int!, $rating: Int!) {
   addRating(input: {rating: $rating, readingId: $readingId}) {
@@ -489,6 +555,17 @@ export const MeDocument = gql`
 
 export function useMeQuery(options: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<MeQuery>({ query: MeDocument, ...options });
+};
+export const CurrentReadingMeetingsDocument = gql`
+    query CurrentReadingMeetings {
+  currentReadingMeetings {
+    ...StandardMeeting
+  }
+}
+    ${StandardMeetingFragmentDoc}`;
+
+export function useCurrentReadingMeetingsQuery(options: Omit<Urql.UseQueryArgs<CurrentReadingMeetingsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<CurrentReadingMeetingsQuery>({ query: CurrentReadingMeetingsDocument, ...options });
 };
 export const GetUserRatingDocument = gql`
     query getUserRating($readingId: Int!) {

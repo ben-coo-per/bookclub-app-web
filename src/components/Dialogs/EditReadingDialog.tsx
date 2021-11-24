@@ -1,13 +1,13 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState } from "react";
-import { DialogProps } from ".";
+import { ReadingDialogProps } from ".";
 import EditReadingForm from "../Forms/EditReadingForm";
 
 export const EditReadingDialog = ({
   isOpen,
   closeModal,
   isCurrentReading,
-}: DialogProps) => {
+}: ReadingDialogProps) => {
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog

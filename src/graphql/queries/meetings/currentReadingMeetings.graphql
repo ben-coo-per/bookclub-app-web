@@ -1,0 +1,5 @@
+query CurrentReadingMeetings {
+  currentReadingMeetings {
+    ...StandardMeeting
+  }
+}

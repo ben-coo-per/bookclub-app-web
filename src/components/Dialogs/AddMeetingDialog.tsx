@@ -1,13 +1,9 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
-import AddNewReadingForm from "src/components/Forms/AddNewReadingForm";
-import { ReadingDialogProps } from ".";
+import { Fragment } from "react";
+import { DialogProps } from ".";
+import AddMeetingForm from "../Forms/AddMeetingForm";
 
-export const AddNewReadingDialog = ({
-  isOpen,
-  closeModal,
-  isCurrentReading,
-}: ReadingDialogProps) => {
+export const AddMeetingDialog = ({ isOpen, closeModal }: DialogProps) => {
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog
@@ -42,10 +38,7 @@ export const AddNewReadingDialog = ({
             leaveTo="opacity-0 scale-95"
           >
             <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-              <AddNewReadingForm
-                cancelAction={closeModal}
-                isCurrentReading={isCurrentReading}
-              />
+              <AddMeetingForm cancelAction={closeModal} />
             </div>
           </Transition.Child>
         </div>

@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Reading as ReadingFromServer } from "src/generated/graphql";
 import { RootState } from "src/store";
-import { updateCurrentReading } from "./currentReadingSlice";
 
 export type UserVote = {
   id: number;

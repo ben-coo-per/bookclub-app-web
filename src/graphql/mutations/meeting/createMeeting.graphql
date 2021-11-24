@@ -1,0 +1,17 @@
+mutation CreateMeeting(
+  $readingIds: [Int!]
+  $meetingDate: String!
+  $readingAssignment: String
+  $meetingLink: String
+) {
+  createMeeting(
+    data: {
+      readingIds: $readingIds
+      meetingDate: $meetingDate
+      readingAssignment: $readingAssignment
+      meetingLink: $meetingLink
+    }
+  ) {
+    ...StandardMeeting
+  }
+}

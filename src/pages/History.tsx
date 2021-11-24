@@ -1,5 +1,6 @@
-import { CurrentReadingContainer } from "src/components/Reading/CurrentReading/Container";
-import { PreviousReadingContainer } from "../components/Reading/PreviousReading/Container";
+import { CurrentReadingContainer } from "src/components/ReadingHistory/CurrentReading/Container";
+import { PreviousReadingContainer } from "src/components/ReadingHistory/PreviousReading/Container";
+import { CurrentMeetingsContainer } from "src/components/ReadingHistory/Meetings/Container";
 
 export function History() {
   return (
@@ -9,10 +10,7 @@ export function History() {
           <div className="col-span-4 mx-auto w-full">
             <div className="grid grid-cols-5 gap-4">
               <CurrentReadingContainer />
-              {/* <div className="flex flex-col col-span-5 md:col-span-2 bg-white p-5 rounded-xl shadow-lg">
-                <h2 className="text-darkBlue text-3xl font-bold">Meetings</h2>
-                <p>TODO</p>
-              </div> */}
+              <CurrentMeetingsContainer />
             </div>
           </div>
           <PreviousReadingContainer />
