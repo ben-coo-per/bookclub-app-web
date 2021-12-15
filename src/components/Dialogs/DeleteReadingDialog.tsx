@@ -12,7 +12,7 @@ import {
 } from "src/features/readings/previousReadingSlice";
 import { Reading, useDeleteReadingMutation } from "src/generated/graphql";
 import { ReadingDialogProps } from ".";
-import { getMultiSelectState } from "../ReadingHistory/CurrentReading/Toolbar";
+import { getMultiSelectState } from "../Reading/CurrentReading/Toolbar";
 
 interface DeleteReadingDialogProps extends ReadingDialogProps {
   readings: Reading[];

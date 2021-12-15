@@ -1,0 +1,16 @@
+mutation AddAttendanceRecord(
+  $meetingId: Int!
+  $userId: Int!
+  $attendanceState: AttendanceType
+) {
+  addAttendanceRecord(
+    meetingId: $meetingId
+    userId: $userId
+    attendanceState: $attendanceState
+  ) {
+    userId
+    meetingId
+    attendanceState
+    isDiscussionLeader
+  }
+}

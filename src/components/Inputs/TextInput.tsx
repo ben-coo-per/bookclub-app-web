@@ -14,7 +14,7 @@ type onBlurType = any;
 interface TextInputProps {
   placeholder?: string;
   label?: string;
-  tailwindClasses?: string;
+  className?: string;
   type?: string;
   value?: string;
   onChange?: onChangeType;
@@ -25,7 +25,7 @@ interface TextInputProps {
 export const TextInput = ({
   placeholder,
   label,
-  tailwindClasses,
+  className,
   type = "text",
   value,
   onChange,
@@ -33,13 +33,13 @@ export const TextInput = ({
   name,
 }: TextInputProps) => {
   return (
-    <div className={`flex flex-col gap-0.5 ${tailwindClasses}`}>
+    <div className={`flex flex-col gap-0.5 ${className}`}>
       <label className="font-sans text-md text-subtleText ml-0.5">
         {label}
       </label>
       <input
         name={name}
-        className="bg-background p-2.5 text-darkBlue border-2 border-darkBlue rounded-md font-serif text-md"
+        className="bg-background p-2.5 text-darkBlue border-2 border-darkBlue rounded-md font-serif text-md w-full"
         placeholder={placeholder ? placeholder : ""}
         type={type}
         value={value}

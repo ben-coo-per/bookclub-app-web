@@ -1,0 +1,9 @@
+query AllMeetings($cursor: String, $limit: Int!) {
+  allMeetings(cursor: $cursor, limit: $limit) {
+    meetings {
+      ...StandardMeeting
+    }
+    previousCursor
+    nextCursor
+  }
+}

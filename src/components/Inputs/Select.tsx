@@ -89,7 +89,7 @@ export function Select({
               leaveTo="opacity-0"
             >
               <Listbox.Options
-                className={`absolute z-10 mt-20 w-full bg-${colors[variant].bg} shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-regBlue ring-opacity-5 overflow-auto focus:outline-none sm:text-sm`}
+                className={`absolute z-10 mt-6 w-full bg-${colors[variant].bg} shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-regBlue ring-opacity-5 overflow-auto focus:outline-none sm:text-sm`}
               >
                 {options.map((option) => {
                   let formattedOption = camelCaseToCapitalizedWords(option);

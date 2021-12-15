@@ -55,7 +55,7 @@ export const LoginForm = () => {
               label="Email"
               name="email"
               placeholder="Enter your email"
-              tailwindClasses="mx-auto w-full"
+              className="mx-auto w-full"
               value={values.email}
               onChange={handleChange}
             />
@@ -64,7 +64,7 @@ export const LoginForm = () => {
               label="Password"
               name="password"
               placeholder="Enter your password"
-              tailwindClasses="mx-auto w-full"
+              className="mx-auto w-full"
               type="password"
               value={values.password}
               onChange={handleChange}

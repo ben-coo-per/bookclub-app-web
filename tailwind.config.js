@@ -13,8 +13,9 @@ module.exports = {
         champagne: "#F2E3CB",
         royalRed: "#AE3028",
         kingsGold: "#DFC640",
+        jesterGreen: "#44B07C",
 
-        background: "#FCF9F5",
+        background: "#FFFFFF",
         white: "#FFFEFB",
         accent: "#F8F4F0",
         darkAccent: "#AEAEC1",

@@ -1,6 +1,6 @@
 export { Home } from "./Home";
-export { History } from "./History";
-export { Attendance } from "./Attendance";
+export { Readings } from "./Readings";
+export { Meetings } from "./Meetings";
 export { Profile } from "./Profile";
 export { Auth } from "./Auth";
 export { Register } from "./auth/Register";

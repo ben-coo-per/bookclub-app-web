@@ -1,0 +1,12 @@
+query readingAssignments($meetingId: Int) {
+  readingAssignments(meetingId: $meetingId) {
+    readingId
+    meetingId
+    meetingId
+    readingAssigmentType
+    readingAssignmentStart
+    readingAssignmentEnd
+    author
+    title
+  }
+}

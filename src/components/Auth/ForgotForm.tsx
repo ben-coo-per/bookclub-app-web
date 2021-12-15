@@ -45,7 +45,7 @@ export const ForgotForm = ({
               label="Email"
               name="email"
               placeholder="Enter your email"
-              tailwindClasses="mx-auto w-full"
+              className="mx-auto w-full"
               value={values.email}
               onChange={handleChange}
             />

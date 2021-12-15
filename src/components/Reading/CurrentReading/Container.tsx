@@ -22,7 +22,7 @@ export const CurrentReadingContainer = () => {
 
   const currentReadings = useSelector(allCurrentReadings);
   return (
-    <div className="bg-white p-5 rounded-xl shadow-lg flex flex-col col-span-5 md:col-span-3">
+    <div className="flex flex-col mx-auto gap-3 w-full col-span-4">
       <div className="flex flex-row justify-between items-center ">
         <h2 className="text-darkBlue text-3xl font-bold truncate">
           Currently Reading

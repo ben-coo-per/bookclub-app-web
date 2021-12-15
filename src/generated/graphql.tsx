@@ -14,6 +14,29 @@ export type Scalars = {
   Float: number;
 };
 
+export type AllMeetingsResponse = {
+  __typename?: 'AllMeetingsResponse';
+  meetings?: Maybe<Array<Meeting>>;
+  nextCursor?: Maybe<Scalars['String']>;
+  previousCursor?: Maybe<Scalars['String']>;
+};
+
+/** An attendance record linking a user to a meeting  */
+export type Attendance = {
+  __typename?: 'Attendance';
+  attendanceState?: Maybe<AttendanceType>;
+  isDiscussionLeader?: Maybe<Scalars['Boolean']>;
+  meetingId: Scalars['Float'];
+  userId: Scalars['Float'];
+};
+
+/** The different options to describe the user's attendance */
+export enum AttendanceType {
+  Absent = 'absent',
+  Excused = 'excused',
+  Present = 'present'
+}
+
 export type FieldError = {
   __typename?: 'FieldError';
   field: Scalars['String'];
@@ -27,19 +50,21 @@ export type Meeting = {
   id: Scalars['Int'];
   meetingDate: Scalars['String'];
   meetingLink?: Maybe<Scalars['String']>;
-  readingAssignment?: Maybe<Scalars['String']>;
   updatedAt: Scalars['String'];
 };
 
 export type MeetingInput = {
   meetingDate: Scalars['String'];
   meetingLink?: Maybe<Scalars['String']>;
-  readingAssignment?: Maybe<Scalars['String']>;
+  readingAssigmentType?: Maybe<Scalars['String']>;
+  readingAssignmentEnd?: Maybe<Scalars['String']>;
+  readingAssignmentStart?: Maybe<Scalars['String']>;
   readingIds?: Maybe<Array<Scalars['Int']>>;
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addAttendanceRecord?: Maybe<Attendance>;
   /** Create a new rating */
   addRating: RatingResponse;
   changePassword: UserResponse;
@@ -56,6 +81,13 @@ export type Mutation = {
   updateRating?: Maybe<RatingResponse>;
   /** Update an existing Reading */
   updateReading?: Maybe<Reading>;
+};
+
+
+export type MutationAddAttendanceRecordArgs = {
+  attendanceState?: Maybe<AttendanceType>;
+  meetingId: Scalars['Int'];
+  userId: Scalars['Int'];
 };
 
 
@@ -113,19 +145,40 @@ export type MutationUpdateReadingArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  allMeetings: Array<Meeting>;
-  currentReadingMeetings: Array<Meeting>;
+  /** Get all Meetings */
+  allMeetings: AllMeetingsResponse;
+  allUsers: Array<User>;
   /** Get all Current Readings */
   currentlyReading: Array<Reading>;
   me?: Maybe<User>;
+  meetingUsersAttendance: Array<UserAttendanceResponse>;
+  /** Get meetings by month */
+  meetingsByMonth: AllMeetingsResponse;
   /** Get all Readings */
   previousReadings: Array<Reading>;
   /** Get Ratings on a Reading based on given ID */
   rating: Array<Rating>;
   /** Get Reading based on given ID */
   reading?: Maybe<Reading>;
+  readingAssignments: Array<ReadingAssignmentsResponse>;
   /** Get Ratings on a Reading based on given ID and userID */
   userRating: Rating;
+};
+
+
+export type QueryAllMeetingsArgs = {
+  cursor?: Maybe<Scalars['String']>;
+  limit: Scalars['Int'];
+};
+
+
+export type QueryMeetingUsersAttendanceArgs = {
+  meetingId?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryMeetingsByMonthArgs = {
+  cursor?: Maybe<Scalars['String']>;
 };
 
 
@@ -142,6 +195,11 @@ export type QueryRatingArgs = {
 
 export type QueryReadingArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryReadingAssignmentsArgs = {
+  meetingId?: Maybe<Scalars['Int']>;
 };
 
 
@@ -185,6 +243,18 @@ export type Reading = {
   updatedAt: Scalars['String'];
 };
 
+export type ReadingAssignmentsResponse = {
+  __typename?: 'ReadingAssignmentsResponse';
+  author?: Maybe<Scalars['String']>;
+  meetingDate?: Maybe<Scalars['String']>;
+  meetingId: Scalars['Float'];
+  readingAssigmentType?: Maybe<Scalars['String']>;
+  readingAssignmentEnd?: Maybe<Scalars['String']>;
+  readingAssignmentStart?: Maybe<Scalars['String']>;
+  readingId: Scalars['Float'];
+  title?: Maybe<Scalars['String']>;
+};
+
 export type ReadingInput = {
   author?: Maybe<Scalars['String']>;
   currentlyReading?: Maybe<Scalars['Boolean']>;
@@ -214,6 +284,12 @@ export type User = {
   updatedAt: Scalars['String'];
 };
 
+export type UserAttendanceResponse = {
+  __typename?: 'UserAttendanceResponse';
+  attendanceState: AttendanceType;
+  user: User;
+};
+
 export type UserInputFields = {
   email: Scalars['String'];
   password: Scalars['String'];
@@ -225,7 +301,7 @@ export type UserResponse = {
   user?: Maybe<User>;
 };
 
-export type StandardMeetingFragment = { __typename?: 'Meeting', id: number, meetingDate: string, readingAssignment?: string | null | undefined, createdAt: string, updatedAt: string };
+export type StandardMeetingFragment = { __typename?: 'Meeting', id: number, meetingDate: string, meetingLink?: string | null | undefined, createdAt: string, updatedAt: string };
 
 export type StandardRatingFragment = { __typename?: 'Rating', rating: number, id: number, userId: number, readingId: number };
 
@@ -237,15 +313,26 @@ export type StandardUserFragment = { __typename?: 'User', id: number, name: stri
 
 export type StandardUserResponseFragment = { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined, user?: { __typename?: 'User', id: number, name: string } | null | undefined };
 
+export type AddAttendanceRecordMutationVariables = Exact<{
+  meetingId: Scalars['Int'];
+  userId: Scalars['Int'];
+  attendanceState?: Maybe<AttendanceType>;
+}>;
+
+
+export type AddAttendanceRecordMutation = { __typename?: 'Mutation', addAttendanceRecord?: { __typename?: 'Attendance', userId: number, meetingId: number, attendanceState?: AttendanceType | null | undefined, isDiscussionLeader?: boolean | null | undefined } | null | undefined };
+
 export type CreateMeetingMutationVariables = Exact<{
   readingIds?: Maybe<Array<Scalars['Int']> | Scalars['Int']>;
   meetingDate: Scalars['String'];
-  readingAssignment?: Maybe<Scalars['String']>;
+  readingAssigmentType?: Maybe<Scalars['String']>;
+  readingAssignmentEnd?: Maybe<Scalars['String']>;
+  readingAssignmentStart?: Maybe<Scalars['String']>;
   meetingLink?: Maybe<Scalars['String']>;
 }>;
 
 
-export type CreateMeetingMutation = { __typename?: 'Mutation', createMeeting: { __typename?: 'Meeting', id: number, meetingDate: string, readingAssignment?: string | null | undefined, createdAt: string, updatedAt: string } };
+export type CreateMeetingMutation = { __typename?: 'Mutation', createMeeting: { __typename?: 'Meeting', id: number, meetingDate: string, meetingLink?: string | null | undefined, createdAt: string, updatedAt: string } };
 
 export type AddRatingMutationVariables = Exact<{
   readingId: Scalars['Int'];
@@ -328,15 +415,27 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'Mutation', register?: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null | undefined, user?: { __typename?: 'User', id: number, name: string } | null | undefined } | null | undefined };
 
-export type MeQueryVariables = Exact<{ [key: string]: never; }>;
+export type AllMeetingsQueryVariables = Exact<{
+  cursor?: Maybe<Scalars['String']>;
+  limit: Scalars['Int'];
+}>;
 
 
-export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, name: string } | null | undefined };
+export type AllMeetingsQuery = { __typename?: 'Query', allMeetings: { __typename?: 'AllMeetingsResponse', previousCursor?: string | null | undefined, nextCursor?: string | null | undefined, meetings?: Array<{ __typename?: 'Meeting', id: number, meetingDate: string, meetingLink?: string | null | undefined, createdAt: string, updatedAt: string }> | null | undefined } };
 
-export type CurrentReadingMeetingsQueryVariables = Exact<{ [key: string]: never; }>;
+export type MeetingUsersAttendanceQueryVariables = Exact<{
+  meetingId?: Maybe<Scalars['Int']>;
+}>;
 
 
-export type CurrentReadingMeetingsQuery = { __typename?: 'Query', currentReadingMeetings: Array<{ __typename?: 'Meeting', id: number, meetingDate: string, readingAssignment?: string | null | undefined, createdAt: string, updatedAt: string }> };
+export type MeetingUsersAttendanceQuery = { __typename?: 'Query', meetingUsersAttendance: Array<{ __typename?: 'UserAttendanceResponse', attendanceState: AttendanceType, user: { __typename?: 'User', id: number, name: string } }> };
+
+export type ReadingAssignmentsQueryVariables = Exact<{
+  meetingId?: Maybe<Scalars['Int']>;
+}>;
+
+
+export type ReadingAssignmentsQuery = { __typename?: 'Query', readingAssignments: Array<{ __typename?: 'ReadingAssignmentsResponse', readingId: number, meetingId: number, readingAssigmentType?: string | null | undefined, readingAssignmentStart?: string | null | undefined, readingAssignmentEnd?: string | null | undefined, author?: string | null | undefined, title?: string | null | undefined }> };
 
 export type GetUserRatingQueryVariables = Exact<{
   readingId: Scalars['Int'];
@@ -365,11 +464,21 @@ export type ReadingQueryVariables = Exact<{
 
 export type ReadingQuery = { __typename?: 'Query', reading?: { __typename?: 'Reading', id: number, title: string, author: string, type?: ReadingType | null | undefined, avgRating?: number | null | undefined, currentlyReading: boolean, createdAt: string, updatedAt: string } | null | undefined };
 
+export type AllUsersQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AllUsersQuery = { __typename?: 'Query', allUsers: Array<{ __typename?: 'User', id: number, name: string }> };
+
+export type MeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, name: string } | null | undefined };
+
 export const StandardMeetingFragmentDoc = gql`
     fragment StandardMeeting on Meeting {
   id
   meetingDate
-  readingAssignment
+  meetingLink
   createdAt
   updatedAt
 }
@@ -417,10 +526,28 @@ export const StandardUserResponseFragmentDoc = gql`
 }
     ${StandardErrorFragmentDoc}
 ${StandardUserFragmentDoc}`;
+export const AddAttendanceRecordDocument = gql`
+    mutation AddAttendanceRecord($meetingId: Int!, $userId: Int!, $attendanceState: AttendanceType) {
+  addAttendanceRecord(
+    meetingId: $meetingId
+    userId: $userId
+    attendanceState: $attendanceState
+  ) {
+    userId
+    meetingId
+    attendanceState
+    isDiscussionLeader
+  }
+}
+    `;
+
+export function useAddAttendanceRecordMutation() {
+  return Urql.useMutation<AddAttendanceRecordMutation, AddAttendanceRecordMutationVariables>(AddAttendanceRecordDocument);
+};
 export const CreateMeetingDocument = gql`
-    mutation CreateMeeting($readingIds: [Int!], $meetingDate: String!, $readingAssignment: String, $meetingLink: String) {
+    mutation CreateMeeting($readingIds: [Int!], $meetingDate: String!, $readingAssigmentType: String, $readingAssignmentEnd: String, $readingAssignmentStart: String, $meetingLink: String) {
   createMeeting(
-    data: {readingIds: $readingIds, meetingDate: $meetingDate, readingAssignment: $readingAssignment, meetingLink: $meetingLink}
+    data: {readingIds: $readingIds, meetingDate: $meetingDate, readingAssigmentType: $readingAssigmentType, readingAssignmentStart: $readingAssignmentStart, readingAssignmentEnd: $readingAssignmentEnd, meetingLink: $meetingLink}
   ) {
     ...StandardMeeting
   }
@@ -545,27 +672,52 @@ export const RegisterDocument = gql`
 export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
 };
-export const MeDocument = gql`
-    query Me {
-  me {
-    ...StandardUser
-  }
-}
-    ${StandardUserFragmentDoc}`;
-
-export function useMeQuery(options: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<MeQuery>({ query: MeDocument, ...options });
-};
-export const CurrentReadingMeetingsDocument = gql`
-    query CurrentReadingMeetings {
-  currentReadingMeetings {
-    ...StandardMeeting
+export const AllMeetingsDocument = gql`
+    query AllMeetings($cursor: String, $limit: Int!) {
+  allMeetings(cursor: $cursor, limit: $limit) {
+    meetings {
+      ...StandardMeeting
+    }
+    previousCursor
+    nextCursor
   }
 }
     ${StandardMeetingFragmentDoc}`;
 
-export function useCurrentReadingMeetingsQuery(options: Omit<Urql.UseQueryArgs<CurrentReadingMeetingsQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<CurrentReadingMeetingsQuery>({ query: CurrentReadingMeetingsDocument, ...options });
+export function useAllMeetingsQuery(options: Omit<Urql.UseQueryArgs<AllMeetingsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<AllMeetingsQuery>({ query: AllMeetingsDocument, ...options });
+};
+export const MeetingUsersAttendanceDocument = gql`
+    query MeetingUsersAttendance($meetingId: Int) {
+  meetingUsersAttendance(meetingId: $meetingId) {
+    user {
+      ...StandardUser
+    }
+    attendanceState
+  }
+}
+    ${StandardUserFragmentDoc}`;
+
+export function useMeetingUsersAttendanceQuery(options: Omit<Urql.UseQueryArgs<MeetingUsersAttendanceQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<MeetingUsersAttendanceQuery>({ query: MeetingUsersAttendanceDocument, ...options });
+};
+export const ReadingAssignmentsDocument = gql`
+    query readingAssignments($meetingId: Int) {
+  readingAssignments(meetingId: $meetingId) {
+    readingId
+    meetingId
+    meetingId
+    readingAssigmentType
+    readingAssignmentStart
+    readingAssignmentEnd
+    author
+    title
+  }
+}
+    `;
+
+export function useReadingAssignmentsQuery(options: Omit<Urql.UseQueryArgs<ReadingAssignmentsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<ReadingAssignmentsQuery>({ query: ReadingAssignmentsDocument, ...options });
 };
 export const GetUserRatingDocument = gql`
     query getUserRating($readingId: Int!) {
@@ -610,4 +762,26 @@ export const ReadingDocument = gql`
 
 export function useReadingQuery(options: Omit<Urql.UseQueryArgs<ReadingQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<ReadingQuery>({ query: ReadingDocument, ...options });
+};
+export const AllUsersDocument = gql`
+    query AllUsers {
+  allUsers {
+    ...StandardUser
+  }
+}
+    ${StandardUserFragmentDoc}`;
+
+export function useAllUsersQuery(options: Omit<Urql.UseQueryArgs<AllUsersQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<AllUsersQuery>({ query: AllUsersDocument, ...options });
+};
+export const MeDocument = gql`
+    query Me {
+  me {
+    ...StandardUser
+  }
+}
+    ${StandardUserFragmentDoc}`;
+
+export function useMeQuery(options: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<MeQuery>({ query: MeDocument, ...options });
 };

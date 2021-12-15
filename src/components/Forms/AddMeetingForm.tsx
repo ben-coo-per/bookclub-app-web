@@ -4,9 +4,13 @@ import { Dialog } from "@headlessui/react";
 import { useCreateMeetingMutation } from "src/generated/graphql";
 import { useDispatch } from "react-redux";
 
+let ReadingAssignmentTypeOptions = ["Chapter", "Section", "Page"];
+
 interface AddMeetingFormFields {
   meetingDate: string;
-  readThrough?: string;
+  readingAssignmentType?: string;
+  readingAssignmentStart?: string;
+  readingAssignmentEnd?: string;
   linkToMeeting?: string;
 }
 
@@ -21,12 +25,14 @@ const AddMeetingForm = ({ cancelAction }: AddMeetingFormProps) => {
   return (
     <div className="flex flex-col gap-3">
       <Dialog.Title as="h2" className="text-darkBlue text-4xl font-bold">
-        Add a New Reading
+        Add New Meeting
       </Dialog.Title>
       <Formik
         initialValues={{
           meetingDate: "",
-          readThrough: "",
+          readingAssignmentType: "",
+          readingAssignmentStart: "",
+          readingAssignmentEnd: "",
         }}
         validate={(values: AddMeetingFormFields) => {
           const errors: Partial<AddMeetingFormFields> = {};
@@ -71,31 +77,54 @@ const AddMeetingForm = ({ cancelAction }: AddMeetingFormProps) => {
           isSubmitting,
         }) => (
           <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+            <div className={`flex flex-col gap-0.5 `}>
+              <label className="font-sans text-md text-subtleText ml-0.5">
+                Reading For This Meeting
+              </label>
+              <div className="grid grid-cols-6 md:grid-cols-10 gap-1 items-center border-2 border-darkBlue border-opacity-50 rounded-md p-2">
+                <p className="col-span-1">From</p>
+                <div className="col-span-3">
+                  <Select
+                    selected={values.readingAssignmentType}
+                    options={ReadingAssignmentTypeOptions}
+                    setSelected={(readingAssignmentType) =>
+                      setFieldValue(
+                        "readingAssignmentType",
+                        readingAssignmentType
+                      )
+                    }
+                  />
+                </div>
+
+                <TextInput
+                  name="readingAssignmentStart"
+                  placeholder={`#`}
+                  className="col-span-2"
+                  value={values.readingAssignmentStart}
+                  onChange={handleChange}
+                />
+
+                <p className="col-span-1">To</p>
+
+                <TextInput
+                  name="readingAssignmentEnd"
+                  placeholder={`# or End`}
+                  className="col-span-3"
+                  value={values.readingAssignmentEnd}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+
             <TextInput
               label="Meeting Date"
               name="meetingDate"
               placeholder=""
-              tailwindClasses="mx-auto w-full form-input"
+              className="mx-auto w-full form-input"
               value={values.meetingDate}
               onChange={handleChange}
               type="datetime-local"
             />
-            <TextInput
-              label="Read Through"
-              name="readThrough"
-              placeholder=""
-              tailwindClasses="mx-auto w-full"
-              value={values.readThrough}
-              onChange={handleChange}
-            />
-            {/* <TextInput
-              label="Link to Meeting"
-              name="author"
-              placeholder=""
-              tailwindClasses="mx-auto w-full"
-              value={values.readThrough}
-              onChange={handleChange}
-            /> */}
 
             <span className="w-full flex flex-row gap-2 items-center justify-end">
               <Button variant="outline" type="button" onClick={cancelAction}>

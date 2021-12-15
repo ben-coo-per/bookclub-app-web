@@ -1,7 +1,7 @@
 fragment StandardMeeting on Meeting {
   id
   meetingDate
-  readingAssignment
+  meetingLink
   createdAt
   updatedAt
 }

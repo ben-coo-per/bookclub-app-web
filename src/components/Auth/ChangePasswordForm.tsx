@@ -74,7 +74,7 @@ export const ChangePasswordForm = () => {
               label="New Password"
               name="password"
               placeholder="Enter your new password"
-              tailwindClasses="mx-auto w-full"
+              className="mx-auto w-full"
               type="password"
               value={values.password}
               onChange={handleChange}

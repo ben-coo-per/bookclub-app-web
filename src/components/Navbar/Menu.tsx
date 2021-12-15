@@ -41,13 +41,13 @@ export const Menu = () => {
         icon={<HomeIcon className="h-6 w-6 text-darkBlue" />}
       />
       <MenuLink
-        linkTo="/history"
-        name="Reading History"
+        linkTo="/readings"
+        name="Reading"
         icon={<BookOpenIcon className="h-6 w-6 text-darkBlue" />}
       />
       <MenuLink
-        linkTo="/attendance"
-        name="Attendance"
+        linkTo="/meetings"
+        name="Meetings"
         icon={<CalendarIcon className="h-6 w-6 text-darkBlue" />}
       />
       {authSpot}

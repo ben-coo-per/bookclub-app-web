@@ -8,6 +8,21 @@ interface ButtonProps {
   onClick?: () => void;
   disabled?: boolean;
   loading?: boolean;
+  size?: SizeType;
+}
+
+type SizeType = "sm" | "md" | "lg";
+
+function sizeMapper(size: SizeType) {
+  if (size === "sm") {
+    return "16";
+  }
+  if (size === "md") {
+    return "20";
+  }
+  if (size === "lg") {
+    return "24";
+  }
 }
 
 export const Button = ({
@@ -18,6 +33,7 @@ export const Button = ({
   onClick,
   disabled = false,
   loading = false,
+  size = "md",
 }: ButtonProps) => {
   if (variant === "outline") {
     return (
@@ -28,9 +44,13 @@ export const Button = ({
           disabled={disabled || loading}
           className={`p-2 border-2 border-midnightBlue text-midnightBlue rounded-md disabled:opacity-50 font-semibold font-serif tracking-wider ${className}`}
         >
-          <div className="flex flex-row gap-1 items-end">
+          <div className={`flex flex-row gap-1 items-end text-${size}`}>
             {loading && (
-              <BookIcon className="animate-bounce" size="24" color="blue" />
+              <BookIcon
+                className="animate-bounce"
+                size={sizeMapper(size)}
+                color="blue"
+              />
             )}
             {children}
           </div>

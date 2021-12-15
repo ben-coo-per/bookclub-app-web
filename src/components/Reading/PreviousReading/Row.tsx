@@ -96,12 +96,12 @@ export const PreviousReadingRow = ({
         />
       </div>
       <div
-        className={`shadow-sm rounded-xl  ${
+        className={`shadow-lg border border-accent rounded-xl  ${
           inEditState ? "col-span-11" : "col-span-12"
         }`}
       >
         <div
-          className={`bg-accent gap-y-1 rounded${
+          className={`bg-white gap-y-1 rounded${
             isExpanded ? "-t" : ""
           }-xl px-4 py-2 md:py-0 md:px-10 grid grid-cols-7 justify-items-stretch items-start gap-4`}
         >

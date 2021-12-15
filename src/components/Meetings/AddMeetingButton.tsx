@@ -1,4 +1,4 @@
-import { PlusIcon } from "@heroicons/react/solid";
+import { PlusCircleIcon, PlusIcon } from "@heroicons/react/solid";
 import { useState } from "react";
 import { AddMeetingDialog } from "src/components/Dialogs";
 
@@ -7,10 +7,14 @@ export const AddMeetingButton = () => {
 
   return (
     <>
-      <PlusIcon
-        className="text-midnightBlue cursor-pointer h-7 rounded-md p-0.5 bg-accent hover:bg-champagne hover:bg-opacity-75"
+      <button
+        className="rounded-lg h-full"
         onClick={() => setAddMeetingDialogOpen(true)}
-      />
+      >
+        <PlusCircleIcon
+          className={`text-midnightBlue hover:text-regBlue h-7 w-7`}
+        />
+      </button>
       <AddMeetingDialog
         isOpen={addMeetingDialogOpen}
         closeModal={() => setAddMeetingDialogOpen(false)}

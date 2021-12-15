@@ -58,7 +58,7 @@ export const RegisterForm = () => {
               label="Name"
               name="name"
               placeholder="Enter your full name"
-              tailwindClasses="mx-auto w-full"
+              className="mx-auto w-full"
               value={values.name}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -67,7 +67,7 @@ export const RegisterForm = () => {
               label="Email"
               name="email"
               placeholder="Enter your desired email"
-              tailwindClasses="mx-auto w-full"
+              className="mx-auto w-full"
               value={values.email}
               onChange={handleChange}
             />
@@ -75,7 +75,7 @@ export const RegisterForm = () => {
               label="Password"
               name="password"
               placeholder="Enter your password"
-              tailwindClasses="mx-auto w-full"
+              className="mx-auto w-full"
               type="password"
               value={values.password}
               onChange={handleChange}

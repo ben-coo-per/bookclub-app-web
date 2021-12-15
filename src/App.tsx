@@ -4,8 +4,8 @@ import { ForgotForm } from "./components/Auth/ForgotForm";
 import { NavBar } from "./components/Navbar";
 import {
   Home,
-  History,
-  Attendance,
+  Readings,
+  Meetings,
   Profile,
   Register,
   Login,
@@ -32,8 +32,8 @@ function App() {
             </Route>
           </Route>
 
-          <Route path="history" element={<History />} />
-          <Route path="attendance" element={<Attendance />} />
+          <Route path="readings" element={<Readings />} />
+          <Route path="meetings" element={<Meetings />} />
           <Route path="profile" element={<Profile />} />
         </Routes>
       </Router>

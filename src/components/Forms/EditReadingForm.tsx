@@ -122,7 +122,7 @@ const EditReadingForm = ({
                     ? camelCaseToCapitalizedWords(values.type)
                     : "reading"
                 }`}
-                tailwindClasses="mx-auto w-full"
+                className="mx-auto w-full"
                 value={values.title}
                 onChange={handleChange}
               />
@@ -134,7 +134,7 @@ const EditReadingForm = ({
                     ? camelCaseToCapitalizedWords(values.type)
                     : "reading"
                 }`}
-                tailwindClasses="mx-auto w-full"
+                className="mx-auto w-full"
                 value={values.author}
                 onChange={handleChange}
               />

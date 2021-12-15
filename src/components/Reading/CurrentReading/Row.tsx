@@ -46,7 +46,7 @@ export const CurrentReadingRow = ({
       <div
         className={`${
           inEditState ? "col-span-11" : "col-span-12"
-        } grid grid-cols-3 gap-4 bg-accent gap-y-1 shadow-sm rounded-xl  px-4 py-1 `}
+        } grid grid-cols-3 gap-4 bg-white gap-y-1 shadow-lg border border-accent rounded-xl  px-4 py-1 `}
       >
         <TextDataDisplay label="Title" className="col-span-2 xl:col-span-1">
           {title}

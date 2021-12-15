@@ -1,0 +1,8 @@
+query MeetingUsersAttendance($meetingId: Int) {
+  meetingUsersAttendance(meetingId: $meetingId) {
+    user {
+      ...StandardUser
+    }
+    attendanceState
+  }
+}
