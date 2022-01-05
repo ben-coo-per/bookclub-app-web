@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   selectMeetings,
   hydrateMeetings,
-  appendNewMonthOfReadings,
+  appendNewBatchOfReadings,
   RichMeeting,
   paginationBackwards,
   paginationForwards,
@@ -22,6 +22,7 @@ interface QueryVariables {
 export const MeetingSelector = () => {
   const dispatch = useDispatch();
   const [firstLoad, setFirstLoad] = useState<boolean>(true);
+  const [shouldAppend, setShouldAppend] = useState<boolean>(false);
 
   const windowWidth = useWindowDimensions().width;
   const limit = Math.floor(0.0159 * windowWidth - 1.4667); // Equation to get the limit from the window width
@@ -32,7 +33,6 @@ export const MeetingSelector = () => {
   });
 
   const meetingsFromStore = useSelector(selectMeetings);
-
   let moreNewerMeetings = meetingsFromStore.next != null || undefined;
   let moreOlderMeetings = meetingsFromStore.previous != null || undefined;
 
@@ -76,6 +76,7 @@ export const MeetingSelector = () => {
       );
     } else {
       // Else call DB & append the meetings to the store
+      setShouldAppend(true);
       setVariables({ ...variables, cursor: meetingsFromStore.previous });
     }
   }
@@ -102,17 +103,22 @@ export const MeetingSelector = () => {
   }
 
   useEffect(() => {
+    console.log("useEffect hook called");
     if (firstLoad && data?.allMeetings) {
+      console.log("firstload route called");
       dispatch(hydrateMeetings(data.allMeetings));
       setFirstLoad(false);
-    } else if (data?.allMeetings) {
+    } else if (data?.allMeetings && shouldAppend) {
+      console.log("other route called");
       dispatch(
-        appendNewMonthOfReadings({
+        appendNewBatchOfReadings({
           ...data.allMeetings,
         })
       );
     }
   }, [data?.allMeetings.meetings]);
+
+  console.log(meetingsFromStore);
 
   const meetingsToRender = meetingsFromStore.meetings.filter((meeting) =>
     getMeetingsBetweenCursors(meeting)
@@ -134,15 +140,14 @@ export const MeetingSelector = () => {
       </button>
 
       <div className="flex flex-row-reverse w-full justify-center items-center gap-1 px-2">
+        {!moreNewerMeetings && <AddMeetingButton />}
         {meetingsToRender.map((meeting) => {
           return <MeetingIndicator thisMeeting={meeting} key={meeting.id} />;
         })}
 
         {/* // TODO: Create loading state while fetching = true -> map an array that is the length of the limit of skeleton indicators  */}
       </div>
-      {!moreNewerMeetings ? (
-        <AddMeetingButton />
-      ) : (
+      {moreNewerMeetings && (
         <button
           aria-label="view next month's meetings"
           onClick={handleNext}

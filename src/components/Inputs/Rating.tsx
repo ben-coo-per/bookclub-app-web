@@ -68,21 +68,24 @@ export const StarRatingInput = ({
   }
 
   return (
-    <div className={`flex flex-row gap-0 ${fetching ? "opacity-30" : ""}`}>
-      {stars.map((val) => (
-        <StarRating
-          key={val}
-          place={val}
-          userVote={userVote?.rating}
-          hoverState={hoverState}
-          setHoverState={setHoverState}
-          handleRating={handleRating}
-          loading={isLoading || fetching}
-          size={size}
-          isMobile={isMobile}
-        />
-      ))}
-    </div>
+    <>
+      <div className={`flex flex-row gap-0 ${fetching ? "opacity-30" : ""}`}>
+        {stars.map((val) => (
+          <StarRating
+            key={val}
+            place={val}
+            userVote={userVote?.rating}
+            hoverState={hoverState}
+            setHoverState={setHoverState}
+            handleRating={handleRating}
+            loading={isLoading || fetching}
+            size={size}
+            isMobile={isMobile}
+          />
+        ))}
+      </div>
+      {/* <div className="bg-red-300 absolute bottom-0 inset-x-0 h-10"> hello</div> */}
+    </>
   );
 };
 

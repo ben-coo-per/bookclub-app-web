@@ -1,18 +1,12 @@
 mutation CreateMeeting(
-  $readingIds: [Int!]
   $meetingDate: String!
-  $readingAssigmentType: String
-  $readingAssignmentEnd: String
-  $readingAssignmentStart: String
+  $readingAssignments: [ReadingAssignment!]
   $meetingLink: String
 ) {
   createMeeting(
-    data: {
-      readingIds: $readingIds
+    meetingInput: {
       meetingDate: $meetingDate
-      readingAssigmentType: $readingAssigmentType
-      readingAssignmentStart: $readingAssignmentStart
-      readingAssignmentEnd: $readingAssignmentEnd
+      readingAssignments: $readingAssignments
       meetingLink: $meetingLink
     }
   ) {

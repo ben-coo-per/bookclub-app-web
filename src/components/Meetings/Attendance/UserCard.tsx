@@ -57,7 +57,7 @@ export const UserAttendanceCard = ({ user }: UserAttendanceCardProps) => {
         <Avatar
           size={60}
           name={user.name}
-          variant="bauhaus"
+          variant="beam"
           colors={["#1A2557", "#2415CD", "#F2E3CB", "#AE3028", "#DFC640"]}
         />
       </div>

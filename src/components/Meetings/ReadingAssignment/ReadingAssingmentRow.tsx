@@ -27,7 +27,7 @@ export const ReadingAssignmentRow = ({
   readingAssignment,
 }: ReadingAssignmentRowProps) => {
   const readToDescription = getReadableReadToDescription(
-    readingAssignment.readingAssigmentType,
+    readingAssignment.readingAssignmentType,
     readingAssignment.readingAssignmentStart,
     readingAssignment.readingAssignmentEnd
   );

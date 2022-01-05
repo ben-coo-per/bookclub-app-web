@@ -33,6 +33,7 @@ interface SelectProps {
   label?: string;
   placeholder?: string;
   labelInside?: boolean;
+  size?: "sm" | "md" | "lg";
 }
 
 export function Select({
@@ -43,6 +44,7 @@ export function Select({
   label,
   labelInside = false,
   placeholder = "Select One",
+  size = "md",
 }: SelectProps) {
   return (
     <Listbox value={selected} onChange={setSelected}>
@@ -51,13 +53,19 @@ export function Select({
           <div className="relative flex flex-col gap-0.5">
             {!labelInside && (
               <Listbox.Label
-                className={`font-sans text-md ml-0.5 text-${colors[variant].subtleText}`}
+                className={`font-sans text-${size} ml-0.5 text-${colors[variant].subtleText}`}
               >
                 {label}
               </Listbox.Label>
             )}
             <Listbox.Button
-              className={`flex flex-row gap-2 font-serif items-center relative w-full bg-${colors[variant].bg} border-2 border-${colors[variant].text} rounded-md shadow-sm p-2.5 pl-3 pr-10 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
+              className={`flex flex-row gap-2 font-serif items-center relative w-full bg-${
+                colors[variant].bg
+              } border-2 border-${
+                colors[variant].text
+              } border-opacity-50 rounded-md shadow-sm p-${
+                size == "sm" ? "1" : "2.5"
+              } pl-3 pr-10 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
             >
               {labelInside && (
                 <Listbox.Label
@@ -67,7 +75,7 @@ export function Select({
                 </Listbox.Label>
               )}
               <span
-                className={`block truncate font-serif text-md text-${
+                className={`block truncate font-serif text-${size} text-${
                   selected ? colors[variant].text : colors[variant].subtleText
                 }`}
               >

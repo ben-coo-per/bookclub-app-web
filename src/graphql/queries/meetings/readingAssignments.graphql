@@ -3,7 +3,7 @@ query readingAssignments($meetingId: Int) {
     readingId
     meetingId
     meetingId
-    readingAssigmentType
+    readingAssignmentType
     readingAssignmentStart
     readingAssignmentEnd
     author

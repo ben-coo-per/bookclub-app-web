@@ -18,10 +18,16 @@ export const MeetingIndicator = ({ thisMeeting }: MeetingIndicatorProps) => {
     dispatch(setSelectedMeeting(thisMeeting));
   }
 
-  const day = new Date(parseInt(thisMeeting.meetingDate)).getDate();
-  const month = mapToMonth(
+  let day = new Date(parseInt(thisMeeting.meetingDate)).getDate();
+  let month = mapToMonth(
     new Date(parseInt(thisMeeting.meetingDate)).getMonth()
   );
+  const wrongDateFormat = thisMeeting.meetingDate.includes("-");
+
+  if (wrongDateFormat) {
+    day = new Date(thisMeeting.meetingDate).getDate();
+    month = mapToMonth(new Date(thisMeeting.meetingDate).getMonth());
+  }
 
   return (
     <div

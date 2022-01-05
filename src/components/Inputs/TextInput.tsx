@@ -20,6 +20,7 @@ interface TextInputProps {
   onChange?: onChangeType;
   onBlur?: onBlurType;
   name: string;
+  size?: "md" | "sm" | "lg";
 }
 
 export const TextInput = ({
@@ -31,15 +32,18 @@ export const TextInput = ({
   onChange,
   onBlur,
   name,
+  size = "md",
 }: TextInputProps) => {
   return (
     <div className={`flex flex-col gap-0.5 ${className}`}>
-      <label className="font-sans text-md text-subtleText ml-0.5">
+      <label className={`font-sans text-${size} text-subtleText ml-0.5`}>
         {label}
       </label>
       <input
         name={name}
-        className="bg-background p-2.5 text-darkBlue border-2 border-darkBlue rounded-md font-serif text-md w-full"
+        className={`bg-background p-${
+          size == "sm" ? "1" : "2.5"
+        } border-opacity-50 text-darkBlue border-2 border-darkBlue rounded-md font-serif text-${size} w-full`}
         placeholder={placeholder ? placeholder : ""}
         type={type}
         value={value}

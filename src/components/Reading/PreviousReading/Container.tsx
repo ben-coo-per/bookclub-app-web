@@ -14,7 +14,7 @@ type sortByOptions = typeof sortByOptionsArray[number];
 
 export const PreviousReadingContainer = () => {
   const [firstLoad, setFirstLoad] = useState<boolean>(true);
-  const [{ data }] = usePreviousReadingsQuery({
+  const [{ data, fetching }] = usePreviousReadingsQuery({
     variables: {
       limit: 10,
     },
@@ -40,7 +40,7 @@ export const PreviousReadingContainer = () => {
       <div className="flex flex-col gap-2 mt-4">
         <Skeleton
           className="h-14 my-1 bg-accent"
-          isLoaded={previousReadings.length > 0}
+          isLoaded={!fetching}
           variant="list"
         >
           {previousReadings.map((reading) => {

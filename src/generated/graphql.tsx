@@ -56,10 +56,7 @@ export type Meeting = {
 export type MeetingInput = {
   meetingDate: Scalars['String'];
   meetingLink?: Maybe<Scalars['String']>;
-  readingAssigmentType?: Maybe<Scalars['String']>;
-  readingAssignmentEnd?: Maybe<Scalars['String']>;
-  readingAssignmentStart?: Maybe<Scalars['String']>;
-  readingIds?: Maybe<Array<Scalars['Int']>>;
+  readingAssignments?: Maybe<Array<ReadingAssignment>>;
 };
 
 export type Mutation = {
@@ -103,7 +100,7 @@ export type MutationChangePasswordArgs = {
 
 
 export type MutationCreateMeetingArgs = {
-  data: MeetingInput;
+  meetingInput: MeetingInput;
 };
 
 
@@ -243,14 +240,21 @@ export type Reading = {
   updatedAt: Scalars['String'];
 };
 
+export type ReadingAssignment = {
+  readingAssignmentEnd?: Maybe<Scalars['String']>;
+  readingAssignmentStart?: Maybe<Scalars['String']>;
+  readingAssignmentType?: Maybe<Scalars['String']>;
+  readingId: Scalars['Float'];
+};
+
 export type ReadingAssignmentsResponse = {
   __typename?: 'ReadingAssignmentsResponse';
   author?: Maybe<Scalars['String']>;
   meetingDate?: Maybe<Scalars['String']>;
   meetingId: Scalars['Float'];
-  readingAssigmentType?: Maybe<Scalars['String']>;
   readingAssignmentEnd?: Maybe<Scalars['String']>;
   readingAssignmentStart?: Maybe<Scalars['String']>;
+  readingAssignmentType?: Maybe<Scalars['String']>;
   readingId: Scalars['Float'];
   title?: Maybe<Scalars['String']>;
 };
@@ -323,11 +327,8 @@ export type AddAttendanceRecordMutationVariables = Exact<{
 export type AddAttendanceRecordMutation = { __typename?: 'Mutation', addAttendanceRecord?: { __typename?: 'Attendance', userId: number, meetingId: number, attendanceState?: AttendanceType | null | undefined, isDiscussionLeader?: boolean | null | undefined } | null | undefined };
 
 export type CreateMeetingMutationVariables = Exact<{
-  readingIds?: Maybe<Array<Scalars['Int']> | Scalars['Int']>;
   meetingDate: Scalars['String'];
-  readingAssigmentType?: Maybe<Scalars['String']>;
-  readingAssignmentEnd?: Maybe<Scalars['String']>;
-  readingAssignmentStart?: Maybe<Scalars['String']>;
+  readingAssignments?: Maybe<Array<ReadingAssignment> | ReadingAssignment>;
   meetingLink?: Maybe<Scalars['String']>;
 }>;
 
@@ -435,7 +436,7 @@ export type ReadingAssignmentsQueryVariables = Exact<{
 }>;
 
 
-export type ReadingAssignmentsQuery = { __typename?: 'Query', readingAssignments: Array<{ __typename?: 'ReadingAssignmentsResponse', readingId: number, meetingId: number, readingAssigmentType?: string | null | undefined, readingAssignmentStart?: string | null | undefined, readingAssignmentEnd?: string | null | undefined, author?: string | null | undefined, title?: string | null | undefined }> };
+export type ReadingAssignmentsQuery = { __typename?: 'Query', readingAssignments: Array<{ __typename?: 'ReadingAssignmentsResponse', readingId: number, meetingId: number, readingAssignmentType?: string | null | undefined, readingAssignmentStart?: string | null | undefined, readingAssignmentEnd?: string | null | undefined, author?: string | null | undefined, title?: string | null | undefined }> };
 
 export type GetUserRatingQueryVariables = Exact<{
   readingId: Scalars['Int'];
@@ -545,9 +546,9 @@ export function useAddAttendanceRecordMutation() {
   return Urql.useMutation<AddAttendanceRecordMutation, AddAttendanceRecordMutationVariables>(AddAttendanceRecordDocument);
 };
 export const CreateMeetingDocument = gql`
-    mutation CreateMeeting($readingIds: [Int!], $meetingDate: String!, $readingAssigmentType: String, $readingAssignmentEnd: String, $readingAssignmentStart: String, $meetingLink: String) {
+    mutation CreateMeeting($meetingDate: String!, $readingAssignments: [ReadingAssignment!], $meetingLink: String) {
   createMeeting(
-    data: {readingIds: $readingIds, meetingDate: $meetingDate, readingAssigmentType: $readingAssigmentType, readingAssignmentStart: $readingAssignmentStart, readingAssignmentEnd: $readingAssignmentEnd, meetingLink: $meetingLink}
+    meetingInput: {meetingDate: $meetingDate, readingAssignments: $readingAssignments, meetingLink: $meetingLink}
   ) {
     ...StandardMeeting
   }
@@ -707,7 +708,7 @@ export const ReadingAssignmentsDocument = gql`
     readingId
     meetingId
     meetingId
-    readingAssigmentType
+    readingAssignmentType
     readingAssignmentStart
     readingAssignmentEnd
     author

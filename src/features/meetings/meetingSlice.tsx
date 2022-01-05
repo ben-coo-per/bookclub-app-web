@@ -16,6 +16,7 @@ export interface RichMeeting extends Meeting {
 }
 
 export interface MeetingsState {
+  hydrated: boolean;
   meetings: RichMeeting[];
   selectedMeeting?: RichMeeting;
   previousCursor?: string | null;
@@ -23,6 +24,7 @@ export interface MeetingsState {
 }
 
 const initialState: MeetingsState = {
+  hydrated: false,
   meetings: [],
   selectedMeeting: undefined,
 };
@@ -44,6 +46,7 @@ export const meetingSlice = createSlice({
       state,
       action: PayloadAction<MeetingPaginationResponse>
     ) => {
+      console.log("hydrating Meetings...");
       const meetings: RichMeeting[] = dedup(action.payload.meetings)
         .sort((a: Meeting, b: Meeting) => {
           return parseInt(b.meetingDate) - parseInt(a.meetingDate);
@@ -51,6 +54,7 @@ export const meetingSlice = createSlice({
         .map((meeting: Meeting) => setIsFuture(meeting));
 
       state.meetings = meetings;
+      state.hydrated = true;
       state.selectedMeeting =
         meetings.filter((meeting) => meeting.isFuture)[0] || meetings[0]; // Set to the first future meeting occuring
 
@@ -62,7 +66,7 @@ export const meetingSlice = createSlice({
       state.selectedMeeting = action.payload;
     },
 
-    appendNewMonthOfReadings: (
+    appendNewBatchOfReadings: (
       state,
       action: PayloadAction<MeetingPaginationResponse>
     ) => {
@@ -86,20 +90,37 @@ export const meetingSlice = createSlice({
       }
     },
 
+    addNewMeeting: (state, action: PayloadAction<RichMeeting>) => {
+      console.log("adding Meeting");
+      const meetingDate = `${Date.parse(action.payload.meetingDate)}`;
+      const newMeeting = { ...action.payload, meetingDate: meetingDate };
+
+      let updatedMeetings = state.meetings;
+      updatedMeetings.push(newMeeting);
+
+      console.log(newMeeting);
+
+      state.meetings = updatedMeetings.sort((a: Meeting, b: Meeting) => {
+        return parseInt(b.meetingDate) - parseInt(a.meetingDate);
+      });
+      state.selectedMeeting = state.meetings.filter(
+        (m) => m.id === action.payload.id
+      )[0];
+    },
+
     paginationBackwards: (
       state,
       action: PayloadAction<{ cursor: string; limit: number }>
     ) => {
-      const meetings = state.meetings
-        .filter((m) => m.meetingDate < action.payload.cursor)
-        .slice(0, action.payload.limit);
+      const allMeetingsAfterCursor = state.meetings.filter(
+        (m) => m.meetingDate < action.payload.cursor
+      );
+      const meetings = allMeetingsAfterCursor.slice(0, action.payload.limit);
 
       state.selectedMeeting = meetings[0];
       state.nextCursor = meetings[0].meetingDate;
       state.previousCursor =
-        meetings.filter(
-          (m) => m.meetingDate > meetings[meetings.length - 1].meetingDate
-        ).length > 0
+        allMeetingsAfterCursor.length > meetings.length
           ? meetings[meetings.length - 1].meetingDate
           : null;
     },
@@ -189,7 +210,8 @@ export const meetingSlice = createSlice({
 export const {
   hydrateMeetings,
   setSelectedMeeting,
-  appendNewMonthOfReadings,
+  appendNewBatchOfReadings,
+  addNewMeeting,
   paginationBackwards,
   paginationForwards,
   updateMeetingAttendance,
@@ -204,6 +226,7 @@ export function selectedMeeting(state: RootState) {
 
 export function selectMeetings(state: RootState) {
   return {
+    hydrated: state.meetings.hydrated,
     meetings: state.meetings.meetings,
     next: state.meetings.nextCursor,
     previous: state.meetings.previousCursor,
