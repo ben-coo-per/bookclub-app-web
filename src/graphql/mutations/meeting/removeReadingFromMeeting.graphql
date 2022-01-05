@@ -1,0 +1,3 @@
+mutation RemoveReadingFromMeeting($readingId: Int!, $meetingId: Int!) {
+  removeReadingFromMeeting(meetingId: $meetingId, readingId: $readingId)
+}

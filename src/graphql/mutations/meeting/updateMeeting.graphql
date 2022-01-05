@@ -1,0 +1,17 @@
+mutation UpdateMeeting(
+  $meetingDate: String
+  $readingAssignments: [ReadingAssignment!]
+  $meetingLink: String
+  $id: Int!
+) {
+  updateMeeting(
+    id: $id
+    meetingInput: {
+      meetingDate: $meetingDate
+      readingAssignments: $readingAssignments
+      meetingLink: $meetingLink
+    }
+  ) {
+    ...StandardMeeting
+  }
+}

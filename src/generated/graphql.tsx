@@ -54,7 +54,7 @@ export type Meeting = {
 };
 
 export type MeetingInput = {
-  meetingDate: Scalars['String'];
+  meetingDate?: Maybe<Scalars['String']>;
   meetingLink?: Maybe<Scalars['String']>;
   readingAssignments?: Maybe<Array<ReadingAssignment>>;
 };
@@ -68,12 +68,15 @@ export type Mutation = {
   createMeeting: Meeting;
   /** Create a new Reading */
   createReading: Reading;
+  deleteMeeting: Scalars['Boolean'];
   /** Delete an existing Reading */
   deleteReading: Scalars['Boolean'];
   forgotPassword: Scalars['Boolean'];
   login?: Maybe<UserResponse>;
   logout: Scalars['Boolean'];
   register?: Maybe<UserResponse>;
+  removeReadingFromMeeting: Scalars['Boolean'];
+  updateMeeting: Meeting;
   /** Update an existing rating */
   updateRating?: Maybe<RatingResponse>;
   /** Update an existing Reading */
@@ -109,6 +112,11 @@ export type MutationCreateReadingArgs = {
 };
 
 
+export type MutationDeleteMeetingArgs = {
+  meetingId: Scalars['Int'];
+};
+
+
 export type MutationDeleteReadingArgs = {
   ids: Array<Scalars['Int']>;
 };
@@ -126,6 +134,18 @@ export type MutationLoginArgs = {
 
 export type MutationRegisterArgs = {
   options: SignUpInputFields;
+};
+
+
+export type MutationRemoveReadingFromMeetingArgs = {
+  meetingId: Scalars['Int'];
+  readingId: Scalars['Int'];
+};
+
+
+export type MutationUpdateMeetingArgs = {
+  id: Scalars['Int'];
+  meetingInput: MeetingInput;
 };
 
 
@@ -334,6 +354,31 @@ export type CreateMeetingMutationVariables = Exact<{
 
 
 export type CreateMeetingMutation = { __typename?: 'Mutation', createMeeting: { __typename?: 'Meeting', id: number, meetingDate: string, meetingLink?: string | null | undefined, createdAt: string, updatedAt: string } };
+
+export type DeleteMeetingMutationVariables = Exact<{
+  meetingId: Scalars['Int'];
+}>;
+
+
+export type DeleteMeetingMutation = { __typename?: 'Mutation', deleteMeeting: boolean };
+
+export type RemoveReadingFromMeetingMutationVariables = Exact<{
+  readingId: Scalars['Int'];
+  meetingId: Scalars['Int'];
+}>;
+
+
+export type RemoveReadingFromMeetingMutation = { __typename?: 'Mutation', removeReadingFromMeeting: boolean };
+
+export type UpdateMeetingMutationVariables = Exact<{
+  meetingDate?: Maybe<Scalars['String']>;
+  readingAssignments?: Maybe<Array<ReadingAssignment> | ReadingAssignment>;
+  meetingLink?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+}>;
+
+
+export type UpdateMeetingMutation = { __typename?: 'Mutation', updateMeeting: { __typename?: 'Meeting', id: number, meetingDate: string, meetingLink?: string | null | undefined, createdAt: string, updatedAt: string } };
 
 export type AddRatingMutationVariables = Exact<{
   readingId: Scalars['Int'];
@@ -557,6 +602,38 @@ export const CreateMeetingDocument = gql`
 
 export function useCreateMeetingMutation() {
   return Urql.useMutation<CreateMeetingMutation, CreateMeetingMutationVariables>(CreateMeetingDocument);
+};
+export const DeleteMeetingDocument = gql`
+    mutation DeleteMeeting($meetingId: Int!) {
+  deleteMeeting(meetingId: $meetingId)
+}
+    `;
+
+export function useDeleteMeetingMutation() {
+  return Urql.useMutation<DeleteMeetingMutation, DeleteMeetingMutationVariables>(DeleteMeetingDocument);
+};
+export const RemoveReadingFromMeetingDocument = gql`
+    mutation RemoveReadingFromMeeting($readingId: Int!, $meetingId: Int!) {
+  removeReadingFromMeeting(meetingId: $meetingId, readingId: $readingId)
+}
+    `;
+
+export function useRemoveReadingFromMeetingMutation() {
+  return Urql.useMutation<RemoveReadingFromMeetingMutation, RemoveReadingFromMeetingMutationVariables>(RemoveReadingFromMeetingDocument);
+};
+export const UpdateMeetingDocument = gql`
+    mutation UpdateMeeting($meetingDate: String, $readingAssignments: [ReadingAssignment!], $meetingLink: String, $id: Int!) {
+  updateMeeting(
+    id: $id
+    meetingInput: {meetingDate: $meetingDate, readingAssignments: $readingAssignments, meetingLink: $meetingLink}
+  ) {
+    ...StandardMeeting
+  }
+}
+    ${StandardMeetingFragmentDoc}`;
+
+export function useUpdateMeetingMutation() {
+  return Urql.useMutation<UpdateMeetingMutation, UpdateMeetingMutationVariables>(UpdateMeetingDocument);
 };
 export const AddRatingDocument = gql`
     mutation AddRating($readingId: Int!, $rating: Int!) {

@@ -1,7 +1,6 @@
 import { Transition } from "@headlessui/react";
 import {
   BookOpenIcon,
-  CheckCircleIcon,
   PencilIcon,
   PlusIcon,
   TrashIcon,

@@ -13,7 +13,6 @@ import {
   toggleSelectedReading,
   UserVote,
 } from "src/features/readings/previousReadingSlice";
-import { userInfo } from "os";
 
 interface ReadingHistoryRowProps {
   id: number;

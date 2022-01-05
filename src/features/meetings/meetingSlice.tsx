@@ -164,7 +164,7 @@ export const meetingSlice = createSlice({
           const index = m.attendanceRecords?.findIndex(
             (e) => e.user.id === action.payload.attendanceRecord.user.id
           );
-          if (index == null || index == undefined) {
+          if (index === null || index === undefined) {
             console.log("called");
             newAttendanceRecords = [action.payload.attendanceRecord];
           } else if (index === -1) {
